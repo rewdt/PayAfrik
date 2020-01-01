@@ -13,7 +13,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import Logo from "../../assets/logo_with_title.png";
 import OutlinedGradientButton from "../components/OutlinedGradientButton";
 
-const Onboarding = () => {
+const Onboarding = props => {
   return (
     <View style={styles.root}>
       <SafeAreaView />
@@ -21,7 +21,7 @@ const Onboarding = () => {
         <Image source={Logo} resizeMode="stretch" style={styles.logoStyle} />
       </View>
       <View style={styles.content2}>
-        <Swiper activeDotColor="#000dbb">
+        <Swiper activeDotColor="#000dbb" autoplay>
           <View style={styles.itemContainer}>
             <View style={styles.itemImageContainer}>
               <Image
@@ -69,6 +69,7 @@ const Onboarding = () => {
       </View>
       <View style={styles.content3}>
         <TouchableOpacity
+          onPress={() => props.navigation.navigate("Signup")}
           style={{
             width: 247,
             height: 37,
@@ -91,7 +92,9 @@ const Onboarding = () => {
             &nbsp;Get Started
           </Text>
         </TouchableOpacity>
-        <OutlinedGradientButton />
+        <OutlinedGradientButton
+          onPress={() => props.navigation.navigate("Login")}
+        />
       </View>
     </View>
   );

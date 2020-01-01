@@ -2,9 +2,9 @@ import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
-const OutlinedGradientButton = () => {
+const OutlinedGradientButton = props => {
   return (
-    <TouchableOpacity>
+    <TouchableOpacity {...props}>
       <LinearGradient
         style={{ padding: 2, borderRadius: 20 }}
         start={[0, 0.5]}
