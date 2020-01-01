@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import * as Font from "expo-font";
-import Onboarding from "./src/screens/Onboarding";
+import { StatusBar } from "react-native";
+import { Provider as PaperProvider } from "react-native-paper";
 import { AppLoading } from "expo";
+import AppContainer from "./src/navigation";
 
 export default class App extends Component {
   state = {
@@ -12,8 +14,10 @@ export default class App extends Component {
     await Font.loadAsync({
       "Poppins-Black": require("./resources/fonts/Poppins-Black.ttf"),
       "Poppins-Bold": require("./resources/fonts/Poppins-Bold.ttf"),
-      "Poppins-Regular": require("./resources/fonts/Poppins-Regular.ttf")
+      "Poppins-Regular": require("./resources/fonts/Poppins-Regular.ttf"),
+      "Poppins-SemiBold": require("./resources/fonts/Poppins-SemiBold.ttf")
     });
+    // StatusBar.setTranslucent(false);
     this.setState({ loading: false });
   }
 
@@ -21,6 +25,11 @@ export default class App extends Component {
     if (this.state.loading) {
       return <AppLoading />;
     }
-    return <Onboarding />;
+    return (
+      <PaperProvider>
+        <StatusBar translucent={false} hidden={false} barStyle="dark-content" />
+        <AppContainer />
+      </PaperProvider>
+    );
   }
 }

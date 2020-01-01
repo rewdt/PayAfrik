@@ -118,8 +118,8 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 25
   },
   logoStyle: {
-    width: "33%",
-    height: "90%"
+    width: 130,
+    height: 161
   },
   itemLabelContainer: {
     flex: 1,
