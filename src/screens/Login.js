@@ -10,35 +10,44 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import Logo from "../../assets/logo_with_title.png";
 import PasswordedInput from "../components/PasswordedInput";
 import { TouchableHighlight } from "react-native-gesture-handler";
+import KeyboardShift from "../components/KeyboardShift";
 
 const Login = props => {
   return (
-    <View style={styles.root}>
-      <SafeAreaView />
-      <View style={styles.content1}>
-        <Image source={Logo} resizeMode="contain" style={styles.logoStyle} />
-      </View>
-      <View style={styles.content2}>
-        <TextField
-          label="Phone Number"
-          keyboardType="phone-pad"
-          tintColor="#000dbb"
-        />
-        <PasswordedInput label="Password" tintColor="#000dbb" />
-        <View style={{ alignItems: "flex-end", marginVertical: 20 }}>
-          <Button
-            color="#000dbb"
-            uppercase={false}
-            onPress={() => props.navigation.navigate("ForgotPassword")}
-          >
-            Forgot Password?
-          </Button>
+    <KeyboardShift>
+      {() => (
+        <View style={styles.root}>
+          <SafeAreaView />
+          <View style={styles.content1}>
+            <Image
+              source={Logo}
+              resizeMode="contain"
+              style={styles.logoStyle}
+            />
+          </View>
+          <View style={styles.content2}>
+            <TextField
+              label="Phone Number"
+              keyboardType="phone-pad"
+              tintColor="#000dbb"
+            />
+            <PasswordedInput label="Password" tintColor="#000dbb" />
+            <View style={{ alignItems: "flex-end", marginVertical: 20 }}>
+              <Button
+                color="#000dbb"
+                uppercase={false}
+                onPress={() => props.navigation.navigate("ForgotPassword")}
+              >
+                Forgot Password?
+              </Button>
+            </View>
+            <TouchableHighlight style={styles.submitButton}>
+              <Text style={styles.submitText}>Login</Text>
+            </TouchableHighlight>
+          </View>
         </View>
-        <TouchableHighlight style={styles.submitButton}>
-          <Text style={styles.submitText}>Login</Text>
-        </TouchableHighlight>
-      </View>
-    </View>
+      )}
+    </KeyboardShift>
   );
 };
 
