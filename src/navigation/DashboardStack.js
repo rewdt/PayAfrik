@@ -1,11 +1,19 @@
 import * as React from "react";
-import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
+import {
+  Text,
+  View,
+  Image,
+  Dimensions,
+  TouchableOpacity,
+  StyleSheet
+} from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { createStackNavigator } from "react-navigation-stack";
+import { createStackNavigator, HeaderBackButton } from "react-navigation-stack";
 import DashboardScreen from "../screens/DashboardStack/DashboardScreen";
-import { Avatar } from "react-native-paper";
+import { Avatar, IconButton } from "react-native-paper";
 import ProfileScreen from "../screens/DashboardStack/ProfileScreen";
-
+import ProfileDetailsScreen from "../screens/ProfileDetailsScreen";
+const { width, height } = Dimensions.get("window");
 const styles = StyleSheet.create({
   balanceLabel: {
     color: "#acacac",
@@ -22,8 +30,39 @@ const styles = StyleSheet.create({
     color: "#6470ff",
     fontSize: 6,
     textDecorationLine: "underline"
+  },
+  headerContainer: {
+    height: 100,
+    width,
+    paddingTop: 20,
+    top: 0,
+    position: "absolute",
+    overflow: "hidden",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 20,
+    borderBottomLeftRadius: 50,
+    backgroundColor: "#ffffff",
+    zIndex: 5
   }
 });
+
+const ProfileHeader = () => {
+  return (
+    <View style={styles.headerContainer}>
+      <HeaderBackButton />
+      <IconButton
+        icon={() => (
+          <Image
+            resizeMode="center"
+            source={require("../../assets/power-off2.png")}
+          />
+        )}
+      />
+    </View>
+  );
+};
 
 const DashboardStack = createStackNavigator({
   DashboardScreen: {
@@ -78,7 +117,15 @@ const DashboardStack = createStackNavigator({
   ProfileScreen: {
     screen: ProfileScreen,
     navigationOptions: () => ({
-      header: null
+      header: <ProfileHeader />
+    })
+  },
+  ProfileDetailsScreen: {
+    screen: ProfileDetailsScreen,
+    navigationOptions: () => ({
+      headerTitle: "Profile Details"
+      // headerTitleStyle: { textAlign: "center" }
+      // headerLayoutPreset: "center"
     })
   }
 });
