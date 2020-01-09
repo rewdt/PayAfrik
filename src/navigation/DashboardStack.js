@@ -12,7 +12,7 @@ import { createStackNavigator, HeaderBackButton } from "react-navigation-stack";
 import DashboardScreen from "../screens/DashboardStack/DashboardScreen";
 import { Avatar, IconButton } from "react-native-paper";
 import ProfileScreen from "../screens/DashboardStack/ProfileScreen";
-import ProfileDetailsScreen from "../screens/ProfileDetailsScreen";
+import ProfileDetailsScreen from "../screens/DashboardStack/ProfileDetailsScreen";
 const { width, height } = Dimensions.get("window");
 const styles = StyleSheet.create({
   balanceLabel: {

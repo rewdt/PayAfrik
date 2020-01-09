@@ -5,13 +5,14 @@ import {
   SafeAreaView,
   TouchableOpacity,
   StatusBar,
+  Image,
   Dimensions,
   StyleSheet
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { ScrollView } from "react-native-gesture-handler";
-import { IconButton, Avatar, Button } from "react-native-paper";
+import { IconButton, Avatar, Button, FAB } from "react-native-paper";
 const { width, height } = Dimensions.get("window");
 
 const GradientButton = props => {
@@ -48,7 +49,20 @@ const GradientButton = props => {
 const ProfileScreen = props => {
   return (
     <View style={styles.root}>
-      <StatusBar translucent={false} />
+      {/* <StatusBar translucent={false} /> */}
+      <FAB
+        theme={{ colors: { accent: "#ffffff" } }}
+        color="#ffffff"
+        style={styles.fab}
+        // small={false}
+        icon={() => (
+          <Image
+            source={require("../../../assets/robot.png")}
+            style={{ alignSelf: "center" }}
+          />
+        )}
+        onPress={() => console.log("Pressed")}
+      />
       <ScrollView>
         <View
           style={{
@@ -250,6 +264,13 @@ const styles = StyleSheet.create({
     color: "#ff0000",
     fontFamily: "Poppins-Bold",
     fontSize: 10
+  },
+  fab: {
+    position: "absolute",
+    zIndex: 100,
+    margin: 16,
+    right: 0,
+    bottom: 0
   }
 });
 
