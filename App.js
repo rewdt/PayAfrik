@@ -16,7 +16,9 @@ export default class App extends Component {
       "Poppins-Bold": require("./resources/fonts/Poppins-Bold.ttf"),
       "Poppins-Regular": require("./resources/fonts/Poppins-Regular.ttf"),
       "Poppins-SemiBold": require("./resources/fonts/Poppins-SemiBold.ttf"),
-      "Poppins-Medium": require("./resources/fonts/Poppins-Medium.ttf")
+      "Poppins-Medium": require("./resources/fonts/Poppins-Medium.ttf"),
+      "Poppins-Thin": require("./resources/fonts/Poppins-Thin.ttf"),
+      fontello: require("./resources/fonts/fontello.ttf")
     });
     // StatusBar.setTranslucent(false);
     this.setState({ loading: false });

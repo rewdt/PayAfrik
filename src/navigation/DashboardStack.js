@@ -13,6 +13,7 @@ import DashboardScreen from "../screens/DashboardStack/DashboardScreen";
 import { Avatar, IconButton } from "react-native-paper";
 import ProfileScreen from "../screens/DashboardStack/ProfileScreen";
 import ProfileDetailsScreen from "../screens/DashboardStack/ProfileDetailsScreen";
+import CustomIcon from "../components/CustomIcon";
 const { width, height } = Dimensions.get("window");
 const styles = StyleSheet.create({
   balanceLabel: {
@@ -48,18 +49,11 @@ const styles = StyleSheet.create({
   }
 });
 
-const ProfileHeader = () => {
+const ProfileHeader = props => {
   return (
     <View style={styles.headerContainer}>
-      <HeaderBackButton />
-      <IconButton
-        icon={() => (
-          <Image
-            resizeMode="center"
-            source={require("../../assets/power-off2.png")}
-          />
-        )}
-      />
+      <HeaderBackButton onPress={() => props.navigation.goBack()} />
+      <IconButton icon={() => <CustomIcon name="power-off" size={20} />} />
     </View>
   );
 };
@@ -116,8 +110,8 @@ const DashboardStack = createStackNavigator({
   },
   ProfileScreen: {
     screen: ProfileScreen,
-    navigationOptions: () => ({
-      header: <ProfileHeader />
+    navigationOptions: ({ navigation }) => ({
+      header: <ProfileHeader navigation={navigation} />
     })
   },
   ProfileDetailsScreen: {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -10,11 +10,22 @@ import {
 } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Button, TouchableRipple } from "react-native-paper";
+import DashboardWalletModal from "../../components/DashboardWalletModal";
 
 const DashboardScreen = () => {
+  const [visible, setVisible] = useState(false);
+
+  showModal = status => {
+    setVisible(status);
+  };
+
   return (
     <View>
       <ScrollView>
+        <DashboardWalletModal
+          visible={visible}
+          setVisible={status => showModal(status)}
+        />
         <View style={styles.mainsubHeader}>
           <Button
             theme={{ roundness: 23, colors: { primary: "#ffffff" } }}
@@ -29,6 +40,7 @@ const DashboardScreen = () => {
               // width: 118.5,
               height: 21
             }}
+            onPress={() => showModal(true)}
             mode="contained"
             uppercase={false}
             labelStyle={{
