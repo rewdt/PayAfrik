@@ -12,7 +12,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { Button, TouchableRipple } from "react-native-paper";
 import DashboardWalletModal from "../../components/DashboardWalletModal";
 
-const DashboardScreen = () => {
+const DashboardScreen = props => {
   const [visible, setVisible] = useState(false);
 
   showModal = status => {
@@ -213,15 +213,18 @@ const DashboardScreen = () => {
           >
             <TouchableOpacity style={styles.subContainerButton}>
               <FontAwesome5 name="plus" size={19} />
-              <Text style={styles.subButtonText}>Market Quotas</Text>
+              <Text style={styles.subButtonText}>Buy</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.subContainerButton}>
               <FontAwesome5 name="paper-plane" size={19} />
-              <Text style={styles.subButtonText}>Market Quotas</Text>
+              <Text style={styles.subButtonText}>Send</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.subContainerButton}>
+            <TouchableOpacity
+              style={styles.subContainerButton}
+              onPress={() => props.navigation.navigate("WithdrawScreen")}
+            >
               <FontAwesome5 name="arrow-up" size={19} />
-              <Text style={styles.subButtonText}>Market Quotas</Text>
+              <Text style={styles.subButtonText}>Withdraw</Text>
             </TouchableOpacity>
           </View>
         </ImageBackground>
@@ -301,13 +304,23 @@ const DashboardScreen = () => {
             </Text>
           </View>
           <View style={{ flex: 1, flexDirection: "row", alignItems: "center" }}>
-            <TouchableOpacity style={styles.subContainerButton}>
+            <TouchableOpacity
+              style={styles.subContainerButton}
+              onPress={() =>
+                props.navigation.navigate("UtilitiesScreen", { index: 0 })
+              }
+            >
               <FontAwesome5 name="building" size={19} />
-              <Text style={styles.subButtonText}>Market Quotas</Text>
+              <Text style={styles.subButtonText}>Electricity Bills</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.subContainerButton}>
+            <TouchableOpacity
+              style={styles.subContainerButton}
+              onPress={() =>
+                props.navigation.navigate("UtilitiesScreen", { index: 1 })
+              }
+            >
               <FontAwesome5 name="mobile-alt" size={19} />
-              <Text style={styles.subButtonText}>Market Quotas</Text>
+              <Text style={styles.subButtonText}>Mobile Top-ups</Text>
             </TouchableOpacity>
           </View>
         </ImageBackground>
@@ -413,6 +426,7 @@ const styles = StyleSheet.create({
   subButtonText: {
     fontFamily: "Poppins-SemiBold",
     color: "#262626",
+    textAlign: "center",
     width: 24,
     fontSize: 6
   },

@@ -14,6 +14,9 @@ import { Avatar, IconButton } from "react-native-paper";
 import ProfileScreen from "../screens/DashboardStack/ProfileScreen";
 import ProfileDetailsScreen from "../screens/DashboardStack/ProfileDetailsScreen";
 import CustomIcon from "../components/CustomIcon";
+import UtilitiesScreen from "../screens/DashboardStack/UtilitiesScreen";
+import WithdrawScreen from "../screens/DashboardWithdraw/WithdrawScreen";
+import WithdrawTabView from "../screens/DashboardWithdraw/WithdrawTabView";
 const { width, height } = Dimensions.get("window");
 const styles = StyleSheet.create({
   balanceLabel: {
@@ -58,70 +61,93 @@ const ProfileHeader = props => {
   );
 };
 
-const DashboardStack = createStackNavigator({
-  DashboardScreen: {
-    screen: DashboardScreen,
-    navigationOptions: ({ navigation }) => ({
-      headerLeft: (
-        <View style={{ paddingLeft: 20, alignItems: "center" }}>
-          <Text style={styles.balanceLabel}>Total Balance</Text>
-          <Text style={styles.balance}>$300.24</Text>
-        </View>
-      ),
-      headerRight: (
-        <View style={{ paddingRight: 20 }}>
-          <TouchableOpacity
-            onPress={() => navigation.navigate("ProfileScreen")}
-            style={{ alignItems: "center" }}
-            activeOpacity={0.7}
-          >
-            <Avatar.Icon
-              style={{
-                backgroundColor: "#ffffff",
-                shadowColor: "#000",
-                shadowOffset: {
-                  width: 0,
-                  height: 2
-                },
-                shadowOpacity: 0.25,
-                shadowRadius: 3.84,
-
-                elevation: 5
-              }}
-              icon={() => <FontAwesome5 name="user" color="#e5e5f1" />}
-              theme={{ primary: "#ffffff" }}
-              size={30}
-            />
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                marginTop: 3
-              }}
+const DashboardStack = createStackNavigator(
+  {
+    DashboardScreen: {
+      screen: DashboardScreen,
+      navigationOptions: ({ navigation }) => ({
+        headerLeft: (
+          <View style={{ paddingLeft: 20, alignItems: "center" }}>
+            <Text style={styles.balanceLabel}>Total Balance</Text>
+            <Text style={styles.balance}>$300.24</Text>
+          </View>
+        ),
+        headerRight: (
+          <View style={{ paddingRight: 20 }}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("ProfileScreen")}
+              style={{ alignItems: "center" }}
+              activeOpacity={0.7}
             >
-              <Text style={styles.viewProfileText}>View profile&nbsp;</Text>
-              <FontAwesome5 name="arrow-right" color="#6470ff" size={9} />
-            </View>
-          </TouchableOpacity>
-        </View>
-      ),
-      headerStyle: { height: 70 }
-    })
+              <Avatar.Icon
+                style={{
+                  backgroundColor: "#ffffff",
+                  shadowColor: "#000",
+                  shadowOffset: {
+                    width: 0,
+                    height: 2
+                  },
+                  shadowOpacity: 0.25,
+                  shadowRadius: 3.84,
+
+                  elevation: 5
+                }}
+                icon={() => <FontAwesome5 name="user" color="#e5e5f1" />}
+                theme={{ primary: "#ffffff" }}
+                size={30}
+              />
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  marginTop: 3
+                }}
+              >
+                <Text style={styles.viewProfileText}>View profile&nbsp;</Text>
+                <FontAwesome5 name="arrow-right" color="#6470ff" size={9} />
+              </View>
+            </TouchableOpacity>
+          </View>
+        ),
+        headerStyle: { height: 70 }
+      })
+    },
+    ProfileScreen: {
+      screen: ProfileScreen,
+      navigationOptions: ({ navigation }) => ({
+        header: <ProfileHeader navigation={navigation} />
+      })
+    },
+    ProfileDetailsScreen: {
+      screen: ProfileDetailsScreen,
+      navigationOptions: () => ({
+        headerTitle: "Profile Details"
+        // headerTitleStyle: { textAlign: "center" }
+        // headerLayoutPreset: "center"
+      })
+    },
+    UtilitiesScreen: {
+      screen: UtilitiesScreen,
+      navigationOptions: () => ({
+        headerTitle: "Utilities"
+      })
+    },
+    WithdrawTabView: {
+      screen: WithdrawTabView,
+      navigationOptions: () => ({
+        headerTitle: "Withdraw"
+      })
+    },
+    WithdrawScreen: {
+      screen: WithdrawScreen,
+      navigationOptions: () => ({
+        headerTitle: "Withdraw"
+      })
+    }
   },
-  ProfileScreen: {
-    screen: ProfileScreen,
-    navigationOptions: ({ navigation }) => ({
-      header: <ProfileHeader navigation={navigation} />
-    })
-  },
-  ProfileDetailsScreen: {
-    screen: ProfileDetailsScreen,
-    navigationOptions: () => ({
-      headerTitle: "Profile Details"
-      // headerTitleStyle: { textAlign: "center" }
-      // headerLayoutPreset: "center"
-    })
+  {
+    headerLayoutPreset: "center"
   }
-});
+);
 
 export default DashboardStack;

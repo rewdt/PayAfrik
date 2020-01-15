@@ -3,7 +3,7 @@
   "expoServerPort": null,
   "packagerPort": null,
   "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null
+  "expoServerNgrokUrl": "https://t8-cgh.rewdt.payafrik.exp.direct",
+  "packagerNgrokUrl": "https://packager.t8-cgh.rewdt.payafrik.exp.direct",
+  "ngrokPid": 37259
 }
