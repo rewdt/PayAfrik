@@ -32,7 +32,8 @@ export default function UtilitiesScreen(props) {
         <View style={styles.tabBarContainer}>
           <TabBar
             {...props}
-            style={{ backgroundColor: "#ffffff" }}
+            tabStyle={{ backgroundColor: "transparent" }}
+            style={{ backgroundColor: "transparent", elevation: 0 }}
             indicatorStyle={{ backgroundColor: "#e5e5f1" }}
             labelStyle={{ color: "black" }}
             renderIcon={({ route, focused, color }) =>

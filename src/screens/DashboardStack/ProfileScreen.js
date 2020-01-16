@@ -175,7 +175,10 @@ const ProfileScreen = props => {
               <Text style={styles.confirmationText}>Confirmation Required</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.settingsItemCont}>
+          <TouchableOpacity
+            style={styles.settingsItemCont}
+            onPress={() => props.navigation.navigate("SettingsScreen")}
+          >
             <FontAwesome5 name="cog" size={22} color="#000dbb" />
             <Text style={styles.settingsItemText}>&nbsp;&nbsp;Settings</Text>
           </TouchableOpacity>

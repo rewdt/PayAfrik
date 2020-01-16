@@ -12,7 +12,11 @@ const ExchangeScreen = () => {
         <View
           style={[
             styles.pickerMenuContainer,
-            { borderBottomLeftRadius: 20, borderBottomRightRadius: 20 }
+            {
+              borderBottomLeftRadius: 20,
+              borderBottomRightRadius: 20,
+              marginBottom: 20
+            }
           ]}
         >
           <View
