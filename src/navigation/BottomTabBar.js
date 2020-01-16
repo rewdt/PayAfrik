@@ -6,35 +6,12 @@ import CustomIcon from "../components/CustomIcon";
 import ReceiveStack from "./ReceiveStack";
 import SendFundsStack from "./SendFundsStack";
 import ExchangeStack from "./ExchangeStack";
-
-const Receive = () => {
-  return (
-    <View>
-      <Text>Receive</Text>
-    </View>
-  );
-};
+import PaymentStack from "./PaymentsStack";
 
 const Payments = () => {
   return (
     <View>
       <Text>Payments</Text>
-    </View>
-  );
-};
-
-const SendFunds = () => {
-  return (
-    <View>
-      <Text>SendFunds</Text>
-    </View>
-  );
-};
-
-const Exchange = () => {
-  return (
-    <View>
-      <Text>Exchange</Text>
     </View>
   );
 };
@@ -58,12 +35,12 @@ const TabNavigator = createBottomTabNavigator(
       })
     },
     Payments: {
-      screen: Payments,
+      screen: PaymentStack,
       navigationOptions: () => ({
         tabBarIcon: ({ tintColor }) => (
           <CustomIcon name="cash-out" size={20} color={tintColor} />
-        ),
-        tabBarLabel: <Text style={{ display: "none" }}></Text>
+        )
+        // tabBarLabel: <Text style={{ display: "none" }}></Text>
       })
     },
     SendFunds: {

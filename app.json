@@ -11,6 +11,9 @@
     "platforms": ["ios", "android", "web"],
     "splash": {
       "image": "./assets/SplashImg.png"
+    },
+    "androidStatusBar": {
+      "backgroundColor": "#ffffff"
     }
   }
 }
