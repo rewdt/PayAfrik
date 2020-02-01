@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, Image, SafeAreaView, StyleSheet } from "react-native";
 import { Button } from "react-native-paper";
 import {
@@ -13,6 +13,13 @@ import { TouchableHighlight } from "react-native-gesture-handler";
 import KeyboardShift from "../components/KeyboardShift";
 
 const Login = props => {
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
+  handleSubmit = () => {
+    if (phone === "123456789" && password === "password") {
+      props.navigation.navigate("TabNavigator");
+    }
+  };
   return (
     <KeyboardShift>
       {() => (
@@ -27,11 +34,18 @@ const Login = props => {
           </View>
           <View style={styles.content2}>
             <TextField
+              onChangeText={phone => setPhone(phone)}
+              value={phone}
               label="Phone Number"
               keyboardType="phone-pad"
               tintColor="#000dbb"
             />
-            <PasswordedInput label="Password" tintColor="#000dbb" />
+            <PasswordedInput
+              label="Password"
+              tintColor="#000dbb"
+              onChangeText={pword => setPassword(pword)}
+              value={password}
+            />
             <View style={{ alignItems: "flex-end", marginVertical: 20 }}>
               <Button
                 color="#000dbb"
@@ -41,7 +55,10 @@ const Login = props => {
                 Forgot Password?
               </Button>
             </View>
-            <TouchableHighlight style={styles.submitButton}>
+            <TouchableHighlight
+              style={styles.submitButton}
+              onPress={handleSubmit}
+            >
               <Text style={styles.submitText}>Login</Text>
             </TouchableHighlight>
           </View>

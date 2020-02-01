@@ -10,6 +10,8 @@ import {
 } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Portal, Modal } from "react-native-paper";
+import Chip from "../../../assets/chip.png";
+import PayAfrikMark from "../../../assets/PayAfrik-Mark.png";
 
 const { width } = Dimensions.get("window");
 const CashoutScreen = props => {
@@ -117,16 +119,24 @@ const CashoutScreen = props => {
         </View>
         <View style={styles.atmCard}>
           <View style={{ transform: [{ rotate: "0deg" }] }}>
-            <FontAwesome5 name="sim-card" color="#f2e101" size={33} />
+            <Image source={Chip} />
+            {/* <FontAwesome5 name="sim-card" color="#f2e101" size={33} /> */}
           </View>
           <View>
             <Text style={styles.nameLabel}>John Doe</Text>
             <Text style={styles.cardNumber}>XXXX XXXX XXXX XXXX</Text>
           </View>
           <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center"
+            }}
           >
-            <Text style={styles.cardLabel}>PayAfrik</Text>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Text style={styles.cardLabel}>PayAfrik</Text>
+              <Image source={PayAfrikMark} />
+            </View>
             <TouchableOpacity
               style={styles.buttonContainer}
               activeOpacity={0.7}

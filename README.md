@@ -46,6 +46,11 @@ All tests will be run with jest and enzyme
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
+## Details
+
+phone number - `123456789`
+password - `password`
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details

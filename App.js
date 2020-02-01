@@ -32,7 +32,7 @@ export default class App extends Component {
     return (
       <PaperProvider>
         {/* <StatusBar translucent={false} hidden={false} barStyle="dark-content" /> */}
-        <SplashScreen />
+        <AppContainer />
       </PaperProvider>
     );
   }

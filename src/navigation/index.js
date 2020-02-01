@@ -3,8 +3,8 @@ import AuthStack from "./AuthStack.js";
 import TabNavigator from "./BottomTabBar.js";
 
 const MainNavigationStack = createSwitchNavigator({
-  TabNavigator: TabNavigator,
-  AuthStack: AuthStack
+  AuthStack: AuthStack,
+  TabNavigator: TabNavigator
 });
 
 const AppContainer = createAppContainer(MainNavigationStack);
