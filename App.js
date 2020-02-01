@@ -4,6 +4,7 @@ import { StatusBar } from "react-native";
 import { Provider as PaperProvider } from "react-native-paper";
 import { AppLoading } from "expo";
 import AppContainer from "./src/navigation";
+import SplashScreen from "./src/screens/SplashScreen";
 
 export default class App extends Component {
   state = {
@@ -30,8 +31,8 @@ export default class App extends Component {
     }
     return (
       <PaperProvider>
-        <StatusBar translucent={false} hidden={false} barStyle="dark-content" />
-        <AppContainer />
+        {/* <StatusBar translucent={false} hidden={false} barStyle="dark-content" /> */}
+        <SplashScreen />
       </PaperProvider>
     );
   }
