@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, Image, SafeAreaView, StyleSheet } from "react-native";
 import { Button } from "react-native-paper";
+import { connect } from "react-redux";
 import {
   TextField,
   FilledTextField,
@@ -11,14 +12,15 @@ import Logo from "../../assets/logo_with_title.png";
 import PasswordedInput from "../components/PasswordedInput";
 import { TouchableHighlight } from "react-native-gesture-handler";
 import KeyboardShift from "../components/KeyboardShift";
+import { loginAction } from "../actions/AuthAction";
 
 const Login = props => {
-  const [phone, setPhone] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
   handleSubmit = () => {
-    if (phone === "123456789" && password === "password") {
-      props.navigation.navigate("TabNavigator");
-    }
+    const data = { username, password };
+    props.loginAction(data, props.navigation);
   };
   return (
     <KeyboardShift>
@@ -34,10 +36,10 @@ const Login = props => {
           </View>
           <View style={styles.content2}>
             <TextField
-              onChangeText={phone => setPhone(phone)}
-              value={phone}
-              label="Phone Number"
-              keyboardType="phone-pad"
+              onChangeText={uname => setUsername(uname)}
+              value={username}
+              label="Username"
+              // keyboardType="phone-pad"
               tintColor="#000dbb"
             />
             <PasswordedInput
@@ -55,12 +57,9 @@ const Login = props => {
                 Forgot Password?
               </Button>
             </View>
-            <TouchableHighlight
-              style={styles.submitButton}
-              onPress={handleSubmit}
-            >
+            <Button style={styles.submitButton} onPress={handleSubmit}>
               <Text style={styles.submitText}>Login</Text>
-            </TouchableHighlight>
+            </Button>
           </View>
         </View>
       )}
@@ -107,4 +106,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Login;
+export default connect(null, { loginAction })(Login);

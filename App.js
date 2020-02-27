@@ -2,9 +2,14 @@ import React, { Component } from "react";
 import * as Font from "expo-font";
 import { StatusBar } from "react-native";
 import { Provider as PaperProvider } from "react-native-paper";
+import { Provider as StoreProvider } from "react-redux";
 import { AppLoading } from "expo";
+import FlashMessage from "react-native-flash-message";
+import { PersistGate } from "redux-persist/integration/react";
 import AppContainer from "./src/navigation";
-import SplashScreen from "./src/screens/SplashScreen";
+import configureStore from "./src/store";
+
+const { store, persistor } = configureStore();
 
 export default class App extends Component {
   state = {
@@ -30,10 +35,17 @@ export default class App extends Component {
       return <AppLoading />;
     }
     return (
-      <PaperProvider>
-        {/* <StatusBar translucent={false} hidden={false} barStyle="dark-content" /> */}
-        <AppContainer />
-      </PaperProvider>
+      <StoreProvider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <PaperProvider>
+            <AppContainer />
+            <FlashMessage
+              position="top"
+              renderFlashMessageIcon={this.renderFlashMessageIcon}
+            />
+          </PaperProvider>
+        </PersistGate>
+      </StoreProvider>
     );
   }
 }

@@ -1,0 +1,3 @@
+export const REGISTER_ACTION = "REGISTER_ACTION";
+export const LOGIN_ACTION = "LOGIN_ACTION";
+export const AUTH_ACTION = "AUTH_ACTION";
