@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
   Image,
   SafeAreaView,
+  ScrollView,
   StatusBar,
   StyleSheet
 } from "react-native";
@@ -12,67 +13,113 @@ import {
   FilledTextField,
   OutlinedTextField
 } from "react-native-material-textfield";
+import { connect } from "react-redux";
 import { Button } from "react-native-paper";
 import { FontAwesome5 } from "@expo/vector-icons";
 import Logo from "../../assets/logo_with_title.png";
 import PasswordedInput from "../components/PasswordedInput";
 import { TouchableHighlight } from "react-native-gesture-handler";
+import { registerAction } from "../actions/AuthAction";
 import KeyboardShift from "../components/KeyboardShift";
 
 const SignUp = props => {
+  const [username, setusername] = useState("");
+  const [email, setemail] = useState("");
+  const [phone, setphone] = useState("");
+  const [password, setpassword] = useState("");
+  const [cpassword, setcpassword] = useState("");
+
+  handleSubmit = () => {
+    const data = { username, email, phone, password };
+    props.registerAction(data);
+  };
+
   return (
     <KeyboardShift>
       {() => (
-        <View style={styles.root}>
-          <SafeAreaView />
-          <View style={styles.content1}>
-            <Image
-              source={Logo}
-              resizeMode="contain"
-              style={styles.logoStyle}
-            />
-          </View>
-          <View style={styles.content2}>
-            <TextField
-              label="Phone Number"
-              keyboardType="phone-pad"
-              tintColor="#000dbb"
-            />
-            <PasswordedInput tintColor="#000dbb" label="Password" />
-            <PasswordedInput tintColor="#000dbb" label="Confirm Password" />
-            <View style={{ alignItems: "flex-end", marginVertical: 20 }}>
-              <Text style={[styles.submitText, { textAlign: "justify" }]}>
-                By tapping Continue, Create account, I agree to Company's
-                <Text style={styles.underlineUserAgreement}>
-                  &nbsp;Terms of Service
-                </Text>
-                ,
-                <Text style={styles.underlineUserAgreement}>
-                  &nbsp;Payments Terms of Service
-                </Text>
-                ,{" "}
-                <Text style={styles.underlineUserAgreement}>
-                  Privacy Policy
-                </Text>
-                , and
-                <Text style={styles.underlineUserAgreement}>
-                  &nbsp;Non-discrimination Policy.
-                </Text>
-              </Text>
+        <ScrollView>
+          <View style={styles.root}>
+            <SafeAreaView />
+            <View style={styles.content1}>
+              <Image
+                source={Logo}
+                resizeMode="contain"
+                style={styles.logoStyle}
+              />
             </View>
-            <View style={{ marginTop: 20, marginBottom: 15 }}>
-              <TouchableHighlight style={styles.submitButton}>
-                <Text style={styles.submitText}>Next</Text>
-              </TouchableHighlight>
+            <View style={styles.content2}>
+              <TextField
+                value={username}
+                onChangeText={text => setusername(text)}
+                label="Username"
+                // keyboardType="phone-pad"
+                tintColor="#000dbb"
+              />
+              <TextField
+                value={email}
+                onChangeText={text => setemail(text)}
+                label="Email"
+                // keyboardType="phone-pad"
+                tintColor="#000dbb"
+              />
+              <TextField
+                value={phone}
+                onChangeText={text => setphone(text)}
+                label="Phone Number"
+                keyboardType="phone-pad"
+                tintColor="#000dbb"
+              />
+              <PasswordedInput
+                tintColor="#000dbb"
+                label="Password"
+                value={password}
+                onChangeText={text => setpassword(text)}
+              />
+              <PasswordedInput
+                error={password !== cpassword ? "passwords do not match" : ""}
+                tintColor="#000dbb"
+                label="Confirm Password"
+                value={cpassword}
+                onChangeText={text => setcpassword(text)}
+              />
+              <View style={{ alignItems: "flex-end", marginVertical: 20 }}>
+                <Text style={[styles.submitText, { textAlign: "justify" }]}>
+                  By tapping Continue, Create account, I agree to Company's
+                  <Text style={styles.underlineUserAgreement}>
+                    &nbsp;Terms of Service
+                  </Text>
+                  ,
+                  <Text style={styles.underlineUserAgreement}>
+                    &nbsp;Payments Terms of Service
+                  </Text>
+                  ,{" "}
+                  <Text style={styles.underlineUserAgreement}>
+                    Privacy Policy
+                  </Text>
+                  , and
+                  <Text style={styles.underlineUserAgreement}>
+                    &nbsp;Non-discrimination Policy.
+                  </Text>
+                </Text>
+              </View>
+              <View style={{ marginTop: 20, marginBottom: 15 }}>
+                <Button
+                  onPress={handleSubmit}
+                  style={styles.submitButton}
+                  labelStyle={styles.submitText}
+                >
+                  Next
+                </Button>
+              </View>
+              <Button
+                color="#000dbb"
+                onPress={() => props.navigation.navigate("Login")}
+              >
+                Sign in instead?
+              </Button>
             </View>
-            <Button
-              color="#000dbb"
-              onPress={() => props.navigation.navigate("Login")}
-            >
-              Sign in instead?
-            </Button>
           </View>
-        </View>
+        </ScrollView>
       )}
     </KeyboardShift>
   );
@@ -120,4 +167,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default SignUp;
+export default connect(null, { registerAction })(SignUp);
