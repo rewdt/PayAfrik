@@ -1,61 +1,68 @@
-import React, { Component } from "react";
-import {
-  Text,
-  View,
-  TouchableWithoutFeedback,
-  StyleSheet,
-  Animated
-} from "react-native";
+import React from "react";
+import { Image, Text, View } from "react-native";
+import { connect } from "react-redux";
+import { AppLoading, SplashScreen as Splash } from "expo";
+import { Asset } from "expo-asset";
 
-export default class SplashScreen extends Component {
-  state = {
-    animation: new Animated.Value(0)
-  };
+class SplashScreen extends React.Component {
+  state = { areResourcesReady: false };
 
-  handlePress = () => {
-    console.log("called");
-    Animated.timing(this.state.animation, {
-      toValue: 1,
-      duration: 500
-    }).start(() =>
-      Animated.timing(this.state.animation, {
-        toValue: 0,
-        duration: 1500
-      }).start()
-    );
+  constructor(props) {
+    super(props);
+    Splash.preventAutoHide(); // Instruct SplashScreen not to hide yet
+  }
+
+  componentDidMount() {
+    this.cacheResourcesAsync() // ask for resources
+      .then(() => this.setState({ areResourcesReady: true })) // mark resources as loaded
+      .catch(error =>
+        console.error(`Unexpected error thrown when loading:
+${error.stack}`)
+      );
+  }
+
+  routeOutSplash = () => {
+    // console.log(this.props.user);
+    this.props.navigation.navigate("AuthStack");
   };
 
   render() {
-    const colorInterpolate = this.state.animation.interpolate({
-      inputRange: [0, 1],
-      outputRange: ["red", "green"]
-    });
-    const colorStyle = {
-      backgroundColor: colorInterpolate
-    };
+    if (!this.state.areResourcesReady) {
+      return null;
+    }
 
     return (
-      <View style={styles.root}>
-        <TouchableWithoutFeedback onPress={this.handlePress}>
-          <Animated.View style={[styles.box, colorStyle]}>
-            <Text> textInComponent </Text>
-          </Animated.View>
-        </TouchableWithoutFeedback>
+      <View style={{ flex: 1, backgroundColor: "#f0f0f7" }}>
+        <Image
+          style={{
+            flex: 1,
+            resizeMode: "contain",
+            width: undefined,
+            height: undefined
+          }}
+          source={require("../../assets/SplashImg.png")}
+          onLoadEnd={() => {
+            console.log("Image#onLoadEnd: hiding SplashScreen");
+            this.routeOutSplash();
+            Splash.hide(); // Image is fully presented, instruct SplashScreen to hide
+          }}
+          fadeDuration={0} // we need to adjust Android devices (https://facebook.github.io/react-native/docs/image#fadeduration) fadeDuration prop to `0` as it's default value is `300`
+        />
       </View>
     );
   }
+
+  async cacheResourcesAsync() {
+    const images = [require("../../assets/SplashImg.png")];
+    const cacheImages = images.map(image =>
+      Asset.fromModule(image).downloadAsync()
+    );
+    return Promise.all(cacheImages);
+  }
 }
 
-const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-    backgroundColor: "pink",
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  box: {
-    width: 150,
-    height: 150,
-    backgroundColor: "red"
-  }
+const mapStateToProps = state => ({
+  user: state.AuthReducer.authDetails
 });
+
+export default connect(mapStateToProps)(SplashScreen);

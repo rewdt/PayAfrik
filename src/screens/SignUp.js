@@ -21,6 +21,7 @@ import PasswordedInput from "../components/PasswordedInput";
 import { TouchableHighlight } from "react-native-gesture-handler";
 import { registerAction } from "../actions/AuthAction";
 import KeyboardShift from "../components/KeyboardShift";
+import { validateEmail } from "../helpers/EmailValidation";
 
 const SignUp = props => {
   const [username, setusername] = useState("");
@@ -28,16 +29,32 @@ const SignUp = props => {
   const [phone, setphone] = useState("");
   const [password, setpassword] = useState("");
   const [cpassword, setcpassword] = useState("");
+  const [emailerror, setemailerror] = useState("");
+
+  handleEmailChange = mail => {
+    setemail(mail);
+    if (!validateEmail(mail)) {
+      setemailerror("this is not a valid email");
+    } else {
+      setemailerror("");
+    }
+  };
 
   handleSubmit = () => {
     const data = { username, email, phone, password };
     props.registerAction(data);
   };
 
+  // useEffect(() => {
+  // }, [username, email, phone,cpassword])
+
   return (
     <KeyboardShift>
       {() => (
-        <ScrollView>
+        <ScrollView
+          keyboardShouldPersistTaps="always"
+          keyboardDismissMode="on-drag"
+        >
           <View style={styles.root}>
             <SafeAreaView />
             <View style={styles.content1}>
@@ -50,6 +67,7 @@ const SignUp = props => {
             <View style={styles.content2}>
               <TextField
                 value={username}
+                // error={username.length}
                 onChangeText={text => setusername(text)}
                 label="Username"
                 // keyboardType="phone-pad"
@@ -57,7 +75,8 @@ const SignUp = props => {
               />
               <TextField
                 value={email}
-                onChangeText={text => setemail(text)}
+                error={emailerror}
+                onChangeText={handleEmailChange}
                 label="Email"
                 // keyboardType="phone-pad"
                 tintColor="#000dbb"
@@ -104,9 +123,15 @@ const SignUp = props => {
               </View>
               <View style={{ marginTop: 20, marginBottom: 15 }}>
                 <Button
+                  disabled={
+                    username.length < 3 ||
+                    !validateEmail(email) ||
+                    phone.length < 9 ||
+                    password !== cpassword
+                  }
                   onPress={handleSubmit}
                   style={styles.submitButton}
-                  labelStyle={styles.submitText}
+                  labelStyle={[styles.submitText, { color: "#000000" }]}
                 >
                   Next
                 </Button>

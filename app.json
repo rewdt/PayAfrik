@@ -14,11 +14,13 @@
       "web"
     ],
     "splash": {
-      "image": "./assets/SplashImg.png"
+      "image": "./assets/SplashImg.png",
+      "backgroundColor": "#f0f0f7"
     },
     "androidStatusBar": {
       "backgroundColor": "#ffffff"
     },
-    "description": "PayAfrik mobile app"
+    "description": "PayAfrik mobile app",
+    "githubUrl": "https://github.com/rewdt/payafrik"
   }
 }
