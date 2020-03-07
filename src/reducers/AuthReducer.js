@@ -1,4 +1,4 @@
-import { LOGIN_ACTION } from "../actions";
+import { AUTH_ACTION } from "../actions";
 
 const initialState = {
   authDetails: {}
@@ -6,7 +6,7 @@ const initialState = {
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case LOGIN_ACTION:
+    case AUTH_ACTION:
       return {
         authDetails: action.payload
       };
