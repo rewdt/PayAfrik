@@ -1,7 +1,7 @@
 import axios from "axios";
 import { apiurl } from "../constants";
 import createNotification from "../helpers/Notifications";
-import { AUTH_ACTION } from ".";
+import { AUTH_ACTION, LOGIN_LOADING, REGISTER_LOADING } from ".";
 
 routeHome = ({ navigation, routeTo = "Dashboard" }) => {
   navigation.navigate(routeTo);
@@ -15,6 +15,10 @@ export const loginAction = (data, navigation) => async dispatch => {
       "Content-Type": "application/json"
     }
   };
+  dispatch({
+    type: LOGIN_LOADING,
+    payload: true
+  });
   await fetch(`${apiurl}/login`, options)
     .then(res => res.json())
     .then(res => {
@@ -39,6 +43,10 @@ export const loginAction = (data, navigation) => async dispatch => {
       }
     })
     .catch(res => console.warn("error"));
+  dispatch({
+    type: LOGIN_LOADING,
+    payload: false
+  });
 };
 
 export const registerAction = (data, navigation) => async dispatch => {
@@ -49,6 +57,10 @@ export const registerAction = (data, navigation) => async dispatch => {
       "Content-Type": "application/json"
     }
   };
+  dispatch({
+    type: REGISTER_LOADING,
+    payload: true
+  });
   await fetch(`${apiurl}/signup`, options)
     .then(res => res.json())
     .then(res => {
@@ -72,5 +84,9 @@ export const registerAction = (data, navigation) => async dispatch => {
         });
       }
     })
-    .catch(res => console.warn("error"));
+    .catch(res => console.warn(res));
+  dispatch({
+    type: REGISTER_LOADING,
+    payload: false
+  });
 };

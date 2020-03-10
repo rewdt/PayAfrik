@@ -18,6 +18,7 @@ import UtilitiesScreen from "../screens/DashboardStack/UtilitiesScreen";
 import WithdrawScreen from "../screens/DashboardWithdraw/WithdrawScreen";
 import WithdrawTabView from "../screens/DashboardWithdraw/WithdrawTabView";
 import SettingsScreen from "../screens/DashboardStack/SettingsScreen";
+import SendAFKCoin from "../screens/DashboardStack/SendAFKCoin";
 const { width, height } = Dimensions.get("window");
 const styles = StyleSheet.create({
   balanceLabel: {
@@ -149,6 +150,12 @@ const DashboardStack = createStackNavigator(
       screen: WithdrawScreen,
       navigationOptions: () => ({
         headerTitle: "Withdraw"
+      })
+    },
+    SendAFKCoin: {
+      screen: SendAFKCoin,
+      navigationOptions: () => ({
+        headerTitle: "Send AFK Coin"
       })
     }
   },

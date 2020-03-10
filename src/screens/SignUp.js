@@ -42,7 +42,7 @@ const SignUp = props => {
 
   handleSubmit = () => {
     const data = { username, email, phone, password };
-    props.registerAction(data);
+    props.registerAction(data, props.navigation);
   };
 
   // useEffect(() => {
@@ -129,6 +129,7 @@ const SignUp = props => {
                     phone.length < 9 ||
                     password !== cpassword
                   }
+                  loading={props.isLoading}
                   onPress={handleSubmit}
                   style={styles.submitButton}
                   labelStyle={[styles.submitText, { color: "#000000" }]}
@@ -192,4 +193,8 @@ const styles = StyleSheet.create({
   }
 });
 
-export default connect(null, { registerAction })(SignUp);
+const mapStateToProps = state => ({
+  isLoading: state.AuthReducer.registerLoading
+});
+
+export default connect(mapStateToProps, { registerAction })(SignUp);

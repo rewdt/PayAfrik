@@ -57,7 +57,11 @@ const Login = props => {
                 Forgot Password?
               </Button>
             </View>
-            <Button style={styles.submitButton} onPress={handleSubmit}>
+            <Button
+              style={styles.submitButton}
+              onPress={handleSubmit}
+              loading={props.isLoading}
+            >
               <Text style={styles.submitText}>Login</Text>
             </Button>
           </View>
@@ -106,4 +110,8 @@ const styles = StyleSheet.create({
   }
 });
 
-export default connect(null, { loginAction })(Login);
+const mapStateToProps = state => ({
+  isLoading: state.AuthReducer.loginLoading
+});
+
+export default connect(mapStateToProps, { loginAction })(Login);

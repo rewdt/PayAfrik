@@ -263,18 +263,27 @@ const DashboardScreen = props => {
           >
             <TouchableOpacity style={styles.subContainerButton}>
               <FontAwesome5 name="info" size={19} />
-              <Text style={styles.subButtonText}>Market Quotas</Text>
+              <Text style={[styles.subButtonText, { width: 32 }]}>
+                About AFK Coin
+              </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.subContainerButton}>
+            <TouchableOpacity
+              style={styles.subContainerButton}
+              onPress={() => props.navigation.navigate("SendAFKCoin")}
+            >
               <FontAwesome5 name="paper-plane" size={19} />
-              <Text style={styles.subButtonText}>Market Quotas</Text>
+              <Text style={[styles.subButtonText, { width: 32 }]}>
+                Buy AFK Coin
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.subContainerButton}>
               <Image
                 source={require("../../../assets/send-back.png")}
                 style={{ height: 19.7, width: 24.6 }}
               />
-              <Text style={styles.subButtonText}>Market Quotas</Text>
+              <Text style={[styles.subButtonText, { width: 32 }]}>
+                Transfer
+              </Text>
             </TouchableOpacity>
           </View>
         </ImageBackground>

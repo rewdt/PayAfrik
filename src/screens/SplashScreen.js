@@ -3,6 +3,7 @@ import { Image, Text, View } from "react-native";
 import { connect } from "react-redux";
 import { AppLoading, SplashScreen as Splash } from "expo";
 import { Asset } from "expo-asset";
+import lodash from "lodash";
 
 class SplashScreen extends React.Component {
   state = { areResourcesReady: false };
@@ -23,7 +24,11 @@ ${error.stack}`)
 
   routeOutSplash = () => {
     // console.log(this.props.user);
-    this.props.navigation.navigate("AuthStack");
+    if (!lodash.isEmpty(this.props.user)) {
+      this.props.navigation.navigate("AuthStack");
+    } else {
+      this.props.navigation.navigate("Dashboard");
+    }
   };
 
   render() {
