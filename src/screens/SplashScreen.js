@@ -23,12 +23,14 @@ ${error.stack}`)
   }
 
   routeOutSplash = () => {
-    // console.log(this.props.user);
-    if (!lodash.isEmpty(this.props.user)) {
-      this.props.navigation.navigate("AuthStack");
-    } else {
-      this.props.navigation.navigate("Dashboard");
-    }
+    setTimeout(() => {
+      console.warn(this.props.user);
+      if (lodash.isEmpty(this.props.user)) {
+        this.props.navigation.navigate("AuthStack");
+      } else {
+        this.props.navigation.navigate("Dashboard");
+      }
+    }, 10000);
   };
 
   render() {

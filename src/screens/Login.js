@@ -18,7 +18,7 @@ const Login = props => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  handleSubmit = () => {
+  const handleSubmit = () => {
     const data = { username, password };
     props.loginAction(data, props.navigation);
   };

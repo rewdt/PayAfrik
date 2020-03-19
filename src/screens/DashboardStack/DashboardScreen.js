@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -8,12 +8,22 @@ import {
   ImageBackground,
   StyleSheet
 } from "react-native";
+import { connect } from "react-redux";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Button, TouchableRipple } from "react-native-paper";
 import DashboardWalletModal from "../../components/DashboardWalletModal";
+import { fetchAllCurrencies } from "../../actions/CurrencyListings";
+import { fetchUserProfile } from "../../actions/ProfileAction";
 
 const DashboardScreen = props => {
   const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    console.log("user", props.user);
+    props.fetchAllCurrencies();
+    // props.fetchUserProfile()
+    // console.warn(props.currencies);
+  }, []);
 
   showModal = status => {
     setVisible(status);
@@ -211,11 +221,17 @@ const DashboardScreen = props => {
               justifyContent: "flex-end"
             }}
           >
-            <TouchableOpacity style={styles.subContainerButton}>
+            <TouchableOpacity
+              style={styles.subContainerButton}
+              onPress={() => props.navigation.navigate("BuyOptions")}
+            >
               <FontAwesome5 name="plus" size={19} />
               <Text style={styles.subButtonText}>Buy</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.subContainerButton}>
+            <TouchableOpacity
+              style={styles.subContainerButton}
+              onPress={() => props.navigation.navigate("SendOptions")}
+            >
               <FontAwesome5 name="paper-plane" size={19} />
               <Text style={styles.subButtonText}>Send</Text>
             </TouchableOpacity>
@@ -468,4 +484,12 @@ const styles = StyleSheet.create({
   }
 });
 
-export default DashboardScreen;
+const mapStateToProps = state => ({
+  user: state.AuthReducer.authDetails,
+  currencies: state.Currencies.currenciesList
+});
+
+export default connect(mapStateToProps, {
+  fetchAllCurrencies,
+  fetchUserProfile
+})(DashboardScreen);

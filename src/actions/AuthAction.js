@@ -1,5 +1,5 @@
 import axios from "axios";
-import { apiurl } from "../constants";
+import { apiurl, baseurl } from "../constants";
 import createNotification from "../helpers/Notifications";
 import { AUTH_ACTION, LOGIN_LOADING, REGISTER_LOADING } from ".";
 
@@ -22,8 +22,9 @@ export const loginAction = (data, navigation) => async dispatch => {
   await fetch(`${apiurl}/login`, options)
     .then(res => res.json())
     .then(res => {
-      //   console.log(res);
       if (res.status === true) {
+        // alert(res.status);
+        // console.warn(res.data);
         dispatch({
           type: AUTH_ACTION,
           payload: res.data
@@ -61,7 +62,7 @@ export const registerAction = (data, navigation) => async dispatch => {
     type: REGISTER_LOADING,
     payload: true
   });
-  await fetch(`${apiurl}/signup`, options)
+  await fetch(`${baseurl}/signup`, options)
     .then(res => res.json())
     .then(res => {
       console.log(res);

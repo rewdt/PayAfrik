@@ -3,10 +3,13 @@ import {
   View,
   Text,
   Image,
+  ActivityIndicator,
   ScrollView,
   TouchableOpacity,
   StyleSheet
 } from "react-native";
+import { connect } from "react-redux";
+import lodash from "lodash";
 import { Portal, Modal } from "react-native-paper";
 import { TouchableHighlight } from "react-native-gesture-handler";
 
@@ -22,25 +25,29 @@ const DashboardWalletModal = props => {
             </TouchableHighlight>
           </View>
           <View style={styles.contentBodyStyle}>
-            <ScrollView>
-              {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 34].map(e => (
-                <TouchableOpacity style={styles.btnContainer} key={e}>
-                  <View
-                    style={{ flexDirection: "column", alignItems: "center" }}
-                  >
-                    <Image
-                      source={require("../../assets/btc.png")}
-                      style={{ height: 30, width: 30 }}
-                    />
-                    <Text style={styles.currencyPercentage}>0.00%</Text>
-                  </View>
-                  <View>
-                    <Text style={styles.currencyName}>0 BTC</Text>
-                    <Text>$0.00</Text>
-                  </View>
-                </TouchableOpacity>
-              ))}
-            </ScrollView>
+            {!lodash.isEmpty(props.currencies) ? (
+              <ScrollView>
+                {props.currencies.map(e => (
+                  <TouchableOpacity style={styles.btnContainer} key={e.code}>
+                    <View
+                      style={{ flexDirection: "column", alignItems: "center" }}
+                    >
+                      <Image
+                        source={{ uri: e.icon }}
+                        style={{ height: 30, width: 30 }}
+                      />
+                      <Text style={styles.currencyPercentage}>0.00%</Text>
+                    </View>
+                    <View>
+                      <Text style={styles.currencyName}>0 BTC</Text>
+                      <Text>$0.00</Text>
+                    </View>
+                  </TouchableOpacity>
+                ))}
+              </ScrollView>
+            ) : (
+              <ActivityIndicator />
+            )}
           </View>
         </View>
       </Modal>
@@ -87,4 +94,8 @@ const styles = StyleSheet.create({
   }
 });
 
-export default DashboardWalletModal;
+export const mapStateToProps = state => ({
+  currencies: state.Currencies.currenciesList
+});
+
+export default connect(mapStateToProps)(DashboardWalletModal);
