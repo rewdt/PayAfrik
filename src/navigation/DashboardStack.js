@@ -22,6 +22,8 @@ import SendAFKCoin from "../screens/DashboardStack/SendAFKCoin";
 import BuyOptions from "../screens/DashboardBuy/BuyOptions";
 import BuyTabView from "../screens/DashboardBuy/BuyTabView";
 import SendOptions from "../screens/DashboardSend/SendOptions";
+import { logoutAction } from "../actions/AuthAction";
+import { store } from "../../App";
 
 const { width, height } = Dimensions.get("window");
 const styles = StyleSheet.create({
@@ -62,7 +64,10 @@ const ProfileHeader = props => {
   return (
     <View style={styles.headerContainer}>
       <HeaderBackButton onPress={() => props.navigation.goBack()} />
-      <IconButton icon={() => <CustomIcon name="power-off" size={20} />} />
+      <IconButton
+        icon={() => <CustomIcon name="power-off" size={20} />}
+        onPress={() => store.dispatch(logoutAction(props.navigation))}
+      />
     </View>
   );
 };

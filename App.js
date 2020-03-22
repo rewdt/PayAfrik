@@ -9,7 +9,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import AppContainer from "./src/navigation";
 import configureStore from "./src/store";
 
-const { store, persistor } = configureStore();
+export const { store, persistor } = configureStore();
 
 export default class App extends Component {
   state = {

@@ -9,20 +9,24 @@ import {
   StyleSheet
 } from "react-native";
 import { connect } from "react-redux";
+import { MaterialIcons } from "@expo/vector-icons";
 import lodash from "lodash";
 import { Portal, Modal } from "react-native-paper";
 import { TouchableHighlight } from "react-native-gesture-handler";
 
 const DashboardWalletModal = props => {
+  const onDismiss = () => {
+    props.setVisible(false);
+  };
   return (
     <Portal>
-      <Modal {...props}>
+      <Modal {...props} onDismiss={onDismiss}>
         <View style={styles.contentContainer}>
           <View style={styles.modalHeader}>
             <Text>Wallets</Text>
-            <TouchableHighlight onPress={() => props.setVisible(false)}>
-              <Text>x</Text>
-            </TouchableHighlight>
+            <TouchableOpacity onPress={() => props.setVisible(false)}>
+              <MaterialIcons name="close" size={30} />
+            </TouchableOpacity>
           </View>
           <View style={styles.contentBodyStyle}>
             {!lodash.isEmpty(props.currencies) ? (
@@ -94,7 +98,7 @@ const styles = StyleSheet.create({
   }
 });
 
-export const mapStateToProps = state => ({
+const mapStateToProps = state => ({
   currencies: state.Currencies.currenciesList
 });
 

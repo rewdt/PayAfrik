@@ -2,6 +2,7 @@ import axios from "axios";
 import { apiurl, baseurl } from "../constants";
 import createNotification from "../helpers/Notifications";
 import { AUTH_ACTION, LOGIN_LOADING, REGISTER_LOADING } from ".";
+import { persistor } from "../../App";
 
 routeHome = ({ navigation, routeTo = "Dashboard" }) => {
   navigation.navigate(routeTo);
@@ -19,12 +20,11 @@ export const loginAction = (data, navigation) => async dispatch => {
     type: LOGIN_LOADING,
     payload: true
   });
-  await fetch(`${apiurl}/login`, options)
+  await fetch(`${baseurl}/auth/accounts/signin/`, options)
     .then(res => res.json())
     .then(res => {
+      console.warn(res);
       if (res.status === true) {
-        // alert(res.status);
-        // console.warn(res.data);
         dispatch({
           type: AUTH_ACTION,
           payload: res.data
@@ -43,7 +43,7 @@ export const loginAction = (data, navigation) => async dispatch => {
         });
       }
     })
-    .catch(res => console.warn("error"));
+    .catch(res => console.warn(res));
   dispatch({
     type: LOGIN_LOADING,
     payload: false
@@ -90,4 +90,11 @@ export const registerAction = (data, navigation) => async dispatch => {
     type: REGISTER_LOADING,
     payload: false
   });
+};
+
+export const logoutAction = navigation => dispatch => {
+  persistor
+    .purge()
+    .then(() => navigation.navigate("AuthStack"))
+    .catch(() => console.warn("An error occurred"));
 };

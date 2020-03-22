@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text, StyleSheet, Dimensions, ScrollView } from "react-native";
 import { Button } from "react-native-paper";
+import { connect } from "react-redux";
+import { fetchUserProfile } from "../../actions/ProfileAction";
 
 const { width, height } = Dimensions.get("window");
 
-const ProfileDetailsScreen = () => {
+const ProfileDetailsScreen = props => {
+  useEffect(() => {
+    props.fetchUserProfile(props.user.token);
+  }, []);
+
   return (
     <View style={styles.root}>
       <ScrollView contentContainerStyle={{ height: height + 50 }}>
@@ -130,4 +136,10 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ProfileDetailsScreen;
+const mapStateToProps = state => ({
+  user: state.AuthReducer.authDetails
+});
+
+export default connect(mapStateToProps, { fetchUserProfile })(
+  ProfileDetailsScreen
+);

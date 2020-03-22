@@ -23,14 +23,11 @@ ${error.stack}`)
   }
 
   routeOutSplash = () => {
-    setTimeout(() => {
-      console.warn(this.props.user);
-      if (lodash.isEmpty(this.props.user)) {
-        this.props.navigation.navigate("AuthStack");
-      } else {
-        this.props.navigation.navigate("Dashboard");
-      }
-    }, 10000);
+    if (lodash.isEmpty(this.props.user)) {
+      this.props.navigation.navigate("AuthStack");
+    } else {
+      this.props.navigation.navigate("Dashboard");
+    }
   };
 
   render() {

@@ -19,7 +19,7 @@ const DashboardScreen = props => {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    console.log("user", props.user);
+    // console.log("user", props.user);
     props.fetchAllCurrencies();
     // props.fetchUserProfile()
     // console.warn(props.currencies);

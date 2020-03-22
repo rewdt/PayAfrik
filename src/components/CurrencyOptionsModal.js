@@ -3,54 +3,65 @@ import {
   View,
   Text,
   Image,
+  ActivityIndicator,
   ScrollView,
   TouchableOpacity,
   StyleSheet
 } from "react-native";
+import { connect } from "react-redux";
+import lodash from "lodash";
+import { MaterialIcons } from "@expo/vector-icons";
 import { Portal, Modal, RadioButton } from "react-native-paper";
-import { TouchableHighlight } from "react-native-gesture-handler";
 
 const CurrencyOptionsModal = props => {
   const [selected, setSelected] = useState("a");
+  const onDismiss = () => {
+    props.setVisible(false);
+  };
   return (
     <Portal>
-      <Modal {...props}>
+      <Modal {...props} onDismiss={onDismiss}>
         <View style={styles.contentContainer}>
           <View style={styles.modalHeader}>
             <Text>To</Text>
-            <TouchableHighlight onPress={() => props.setVisible(false)}>
-              <Text>x</Text>
-            </TouchableHighlight>
+            <TouchableOpacity onPress={() => props.setVisible(false)}>
+              <MaterialIcons name="close" size={30} />
+            </TouchableOpacity>
           </View>
           <View style={styles.contentBodyStyle}>
-            <ScrollView>
-              {["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"].map(e => (
-                <RadioButton.Group
-                  onValueChange={value => setSelected(value)}
-                  value={selected}
-                >
-                  <TouchableOpacity
-                    style={styles.btnContainer}
-                    key={e}
-                    onPress={() => setSelected(e)}
+            {!lodash.isEmpty(props.currencies) ? (
+              <ScrollView>
+                {props.currencies.map(e => (
+                  <RadioButton.Group
+                    key={e.code}
+                    onValueChange={value => setSelected(value)}
+                    value={selected}
                   >
-                    <View
-                      style={{ flexDirection: "row", alignItems: "center" }}
+                    <TouchableOpacity
+                      style={styles.btnContainer}
+                      key={e}
+                      onPress={() => setSelected(e)}
                     >
-                      <Image
-                        source={require("../../assets/btc.png")}
-                        style={{ height: 30, width: 30 }}
-                      />
-                      <View style={{ paddingLeft: 10 }}>
-                        <Text style={styles.currencyName}>0 BTC</Text>
-                        <Text style={styles.currencyPercentage}>0.00%</Text>
+                      <View
+                        style={{ flexDirection: "row", alignItems: "center" }}
+                      >
+                        <Image
+                          source={{ uri: e.icon }}
+                          style={{ height: 30, width: 30 }}
+                        />
+                        <View style={{ paddingLeft: 10 }}>
+                          <Text style={styles.currencyName}>0 BTC</Text>
+                          <Text style={styles.currencyPercentage}>0.00%</Text>
+                        </View>
                       </View>
-                    </View>
-                    <RadioButton value={e} />
-                  </TouchableOpacity>
-                </RadioButton.Group>
-              ))}
-            </ScrollView>
+                      <RadioButton value={e} />
+                    </TouchableOpacity>
+                  </RadioButton.Group>
+                ))}
+              </ScrollView>
+            ) : (
+              <ActivityIndicator />
+            )}
           </View>
         </View>
       </Modal>
@@ -97,4 +108,8 @@ const styles = StyleSheet.create({
   }
 });
 
-export default CurrencyOptionsModal;
+const mapStateToProps = state => ({
+  currencies: state.Currencies.currenciesList
+});
+
+export default connect(mapStateToProps)(CurrencyOptionsModal);

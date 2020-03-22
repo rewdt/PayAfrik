@@ -1,12 +1,26 @@
-import React from "react";
-import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  TextInput
+} from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { connect } from "react-redux";
 import QRCode from "react-native-qrcode-svg";
 import { Button, Divider } from "react-native-paper";
+import CurrencyOptionsModal from "../components/CurrencyOptionsModal";
 
 const SendFundsScreen = () => {
+  const [visible, setVisible] = useState(false);
   return (
     <View style={styles.root}>
+      <CurrencyOptionsModal
+        visible={visible}
+        setVisible={status => setVisible(status)}
+      />
       <View style={{ flex: 2, justifyContent: "space-around" }}>
         <View
           style={[
@@ -72,16 +86,17 @@ const SendFundsScreen = () => {
               To
             </Text>
           </View>
-          <View style={{ flex: 2 }}>
-            <TouchableOpacity
+          <View style={[styles.btnContainer, { flex: 2 }]}>
+            {/* <TouchableOpacity
               style={styles.btnContainer}
               onPress={() => setVisible(true)}
-            >
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <Text>Wallet Address</Text>
-              </View>
-              <QRCode value="123456789876543212345678" size={38} />
-            </TouchableOpacity>
+            > */}
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              {/* <Text>Wallet Address</Text> */}
+              <TextInput placeholder="Wallet Address" />
+            </View>
+            <QRCode value="123456789876543212345678" size={38} />
+            {/* </TouchableOpacity> */}
           </View>
         </View>
       </View>
@@ -182,4 +197,8 @@ const styles = StyleSheet.create({
   currencyContainer: { alignItems: "center" }
 });
 
-export default SendFundsScreen;
+const mapStateToProps = state => ({
+  currencies: state.Currencies.currenciesList
+});
+
+export default connect(mapStateToProps)(SendFundsScreen);
