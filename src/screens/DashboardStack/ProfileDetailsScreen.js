@@ -1,108 +1,123 @@
 import React, { useEffect } from "react";
 import { View, Text, StyleSheet, Dimensions, ScrollView } from "react-native";
 import { Button } from "react-native-paper";
+import lodash from "lodash";
 import { connect } from "react-redux";
 import { fetchUserProfile } from "../../actions/ProfileAction";
+import DefaultLoader from "../../components/DefaultLoader";
 
 const { width, height } = Dimensions.get("window");
 
 const ProfileDetailsScreen = props => {
   useEffect(() => {
+    console.warn(props.user);
     props.fetchUserProfile(props.user.token);
   }, []);
 
-  return (
-    <View style={styles.root}>
-      <ScrollView contentContainerStyle={{ height: height + 50 }}>
-        <View style={[styles.contentItemContainer, { marginTop: 37 }]}>
-          <Text style={styles.labelText}>First Name</Text>
-          <Text style={styles.valueText}>John</Text>
-        </View>
-        <View style={[styles.contentItemContainer]}>
-          <Text style={styles.labelText}>Last Name</Text>
-          <Text style={styles.valueText}>Doe</Text>
-        </View>
-        <View style={[styles.contentItemContainer]}>
-          <Text style={styles.labelText}>Phone Number</Text>
-          <Text style={styles.valueText}>+2348101614544</Text>
-        </View>
-        <View style={[styles.contentItemContainer, { alignItems: null }]}>
-          <Text style={[styles.labelText, { alignSelf: "center" }]}>Email</Text>
+  if (!lodash.isEmpty(props.profileDetails)) {
+    return (
+      <View style={styles.root}>
+        <ScrollView contentContainerStyle={{ height: height + 50 }}>
+          <View style={[styles.contentItemContainer, { marginTop: 37 }]}>
+            <Text style={styles.labelText}>First Name</Text>
+            <Text style={styles.valueText}>
+              {props.profileDetails.first_name}
+            </Text>
+          </View>
+          <View style={[styles.contentItemContainer]}>
+            <Text style={styles.labelText}>Last Name</Text>
+            <Text style={styles.valueText}>
+              {props.profileDetails.last_name}
+            </Text>
+          </View>
+          <View style={[styles.contentItemContainer]}>
+            <Text style={styles.labelText}>Phone Number</Text>
+            <Text style={styles.valueText}> {props.profileDetails.phone}</Text>
+          </View>
+          <View style={[styles.contentItemContainer, { alignItems: null }]}>
+            <Text style={[styles.labelText, { alignSelf: "center" }]}>
+              Email
+            </Text>
+            <View
+              style={{
+                paddingTop: 2,
+                alignSelf: "center"
+              }}
+            >
+              <Text style={styles.confirmationText}>Confirmation Required</Text>
+              <Text style={styles.valueText}>
+                {" "}
+                {props.profileDetails.email}
+              </Text>
+            </View>
+          </View>
           <View
             style={{
-              paddingTop: 2,
-              alignSelf: "center"
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "row",
+              paddingVertical: 10
             }}
           >
-            <Text style={styles.confirmationText}>Confirmation Required</Text>
-            <Text style={styles.valueText}>johndoe@gmail.com</Text>
-          </View>
-        </View>
-        <View
-          style={{
-            alignItems: "center",
-            justifyContent: "center",
-            flexDirection: "row",
-            paddingVertical: 10
-          }}
-        >
-          <Text style={{ textAlign: "center" }}>
-            If you didn't receive our email please click&nbsp;
-            <Text
-              style={{
-                color: "#0115fb",
-                fontFamily: "Poppins-Medium",
-                textDecorationLine: "underline"
-              }}
-            >
-              Resend
+            <Text style={{ textAlign: "center" }}>
+              If you didn't receive our email please click&nbsp;
+              <Text
+                style={{
+                  color: "#0115fb",
+                  fontFamily: "Poppins-Medium",
+                  textDecorationLine: "underline"
+                }}
+              >
+                Resend
+              </Text>
             </Text>
-          </Text>
-        </View>
-        <View style={[styles.contentItemContainer]}>
-          <Text style={styles.labelText}>Country</Text>
-          <Text style={styles.valueText}>Nigeria</Text>
-        </View>
-        <View style={[styles.contentItemContainer]}>
-          <Text style={styles.labelText}>City</Text>
-          <Text style={styles.valueText}>Abuja</Text>
-        </View>
-        <View style={[styles.contentItemContainer, { marginBottom: 26 }]}>
-          <Text style={styles.labelText}>Zip Code</Text>
-          <Text style={styles.valueText}>9000008</Text>
-        </View>
-        <View
-          style={{
-            height: "100%",
-            width: "100%",
-            paddingHorizontal: 20,
-            backgroundColor: "#ffffff"
-          }}
-        >
-          <View style={{ paddingTop: 32 }}>
-            <Text
-              style={{
-                marginBottom: 28,
-                fontSize: 12,
-                fontFamily: "Poppins-Regular",
-                textAlign: "center"
-              }}
-            >
-              You can't change your personal data in your profile without
-              contacting support
-            </Text>
-            <Button
-              theme={{ colors: { primary: "#ffffff" } }}
-              mode="contained"
-              uppercase={false}
-            >
-              Contact Support
-            </Button>
           </View>
-        </View>
-      </ScrollView>
-    </View>
-  );
+          <View style={[styles.contentItemContainer]}>
+            <Text style={styles.labelText}>Country</Text>
+            <Text style={styles.valueText}>Nigeria</Text>
+          </View>
+          <View style={[styles.contentItemContainer]}>
+            <Text style={styles.labelText}>City</Text>
+            <Text style={styles.valueText}>Abuja</Text>
+          </View>
+          <View style={[styles.contentItemContainer, { marginBottom: 26 }]}>
+            <Text style={styles.labelText}>Zip Code</Text>
+            <Text style={styles.valueText}>9000008</Text>
+          </View>
+          <View
+            style={{
+              height: "100%",
+              width: "100%",
+              paddingHorizontal: 20,
+              backgroundColor: "#ffffff"
+            }}
+          >
+            <View style={{ paddingTop: 32 }}>
+              <Text
+                style={{
+                  marginBottom: 28,
+                  fontSize: 12,
+                  fontFamily: "Poppins-Regular",
+                  textAlign: "center"
+                }}
+              >
+                You can't change your personal data in your profile without
+                contacting support
+              </Text>
+              <Button
+                theme={{ colors: { primary: "#ffffff" } }}
+                mode="contained"
+                uppercase={false}
+              >
+                Contact Support
+              </Button>
+            </View>
+          </View>
+        </ScrollView>
+      </View>
+    );
+  }
+  return <DefaultLoader />;
 };
 
 const styles = StyleSheet.create({
@@ -137,7 +152,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  user: state.AuthReducer.authDetails
+  user: state.AuthReducer.authDetails,
+  profileDetails: state.profile.profileDetails
 });
 
 export default connect(mapStateToProps, { fetchUserProfile })(

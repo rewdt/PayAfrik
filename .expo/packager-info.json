@@ -1,8 +1,9 @@
 {
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 16920,
+  "packagerPid": 3056,
   "expoServerNgrokUrl": "https://u5-5mg.payafrik.payafrik.exp.direct",
   "packagerNgrokUrl": "https://packager.u5-5mg.payafrik.payafrik.exp.direct",
-  "ngrokPid": 15232
+  "ngrokPid": 21532,
+  "devToolsPort": 19002
 }

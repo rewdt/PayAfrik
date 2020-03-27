@@ -1,7 +1,13 @@
 import axios from "axios";
 import { apiurl, baseurl } from "../constants";
 import createNotification from "../helpers/Notifications";
-import { AUTH_ACTION, LOGIN_LOADING, REGISTER_LOADING } from ".";
+import {
+  AUTH_ACTION,
+  LOGIN_LOADING,
+  REGISTER_LOADING,
+  HANDLE_LOGIN_ERRORS,
+  HANDLE_SIGNUP_ERRORS
+} from ".";
 import { persistor } from "../../App";
 
 routeHome = ({ navigation, routeTo = "Dashboard" }) => {
@@ -23,11 +29,11 @@ export const loginAction = (data, navigation) => async dispatch => {
   await fetch(`${baseurl}/auth/accounts/signin/`, options)
     .then(res => res.json())
     .then(res => {
-      console.warn(res);
-      if (res.status === true) {
+      // console.warn(res);
+      if (!res.error) {
         dispatch({
           type: AUTH_ACTION,
-          payload: res.data
+          payload: res.user
         });
         createNotification({
           message: "Success",
@@ -36,11 +42,24 @@ export const loginAction = (data, navigation) => async dispatch => {
         });
         routeHome({ navigation });
       } else {
-        createNotification({
-          message: "Error",
-          type: "danger",
-          description: res.message
+        dispatch({
+          type: HANDLE_LOGIN_ERRORS,
+          payload: res.error
         });
+        if (typeof res.error === "string") {
+          createNotification({
+            message: "Error",
+            type: "danger",
+            description: res.error
+          });
+        }
+        if (res.error.non_field_errors) {
+          createNotification({
+            message: "Error",
+            type: "danger",
+            description: res.error.non_field_errors[0]
+          });
+        }
       }
     })
     .catch(res => console.warn(res));
@@ -55,21 +74,22 @@ export const registerAction = (data, navigation) => async dispatch => {
     method: "POST",
     body: JSON.stringify(data),
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      "X-PFK-DT": "B"
     }
   };
   dispatch({
     type: REGISTER_LOADING,
     payload: true
   });
-  await fetch(`${baseurl}/signup`, options)
+  await fetch(`${baseurl}/auth/accounts/signup/`, options)
     .then(res => res.json())
     .then(res => {
-      console.log(res);
-      if (res.status === true) {
+      // console.warn(res);
+      if (!res.error) {
         dispatch({
           type: AUTH_ACTION,
-          payload: res.data
+          payload: res.user
         });
         createNotification({
           message: "Success",
@@ -78,11 +98,17 @@ export const registerAction = (data, navigation) => async dispatch => {
         });
         routeHome({ navigation });
       } else {
-        createNotification({
-          message: "Error",
-          type: "danger",
-          description: res.message
+        dispatch({
+          type: HANDLE_SIGNUP_ERRORS,
+          payload: res.error
         });
+        if (res.error.non_field_errors) {
+          createNotification({
+            message: "Error",
+            type: "danger",
+            description: res.error.non_field_errors[0]
+          });
+        }
       }
     })
     .catch(res => console.warn(res));

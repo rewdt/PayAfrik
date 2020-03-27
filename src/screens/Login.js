@@ -38,13 +38,22 @@ const Login = props => {
             <TextField
               onChangeText={uname => setUsername(uname)}
               value={username}
-              label="Username"
-              // keyboardType="phone-pad"
+              label="Phone Number"
+              error={props.usernameError}
+              keyboardType="phone-pad"
+              autoCapitalize="none"
+              autoCompleteType="tel"
+              textContentType="telephoneNumber"
+              dataDetectorTypes="phoneNumber"
               tintColor="#000dbb"
             />
             <PasswordedInput
               label="Password"
               tintColor="#000dbb"
+              error={props.passwordError}
+              autoCapitalize="none"
+              autoCompleteType="password"
+              textContentType="password"
               onChangeText={pword => setPassword(pword)}
               value={password}
             />
@@ -111,7 +120,9 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  isLoading: state.AuthReducer.loginLoading
+  isLoading: state.AuthReducer.loginLoading,
+  usernameError: state.AuthReducer.loginUsernameError,
+  passwordError: state.AuthReducer.loginPasswordError
 });
 
 export default connect(mapStateToProps, { loginAction })(Login);

@@ -24,24 +24,29 @@ import KeyboardShift from "../components/KeyboardShift";
 import { validateEmail } from "../helpers/EmailValidation";
 
 const SignUp = props => {
-  const [username, setusername] = useState("");
-  const [email, setemail] = useState("");
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
   const [phone, setphone] = useState("");
   const [password, setpassword] = useState("");
   const [cpassword, setcpassword] = useState("");
   const [emailerror, setemailerror] = useState("");
 
-  handleEmailChange = mail => {
-    setemail(mail);
-    if (!validateEmail(mail)) {
-      setemailerror("this is not a valid email");
-    } else {
-      setemailerror("");
-    }
-  };
+  // handleEmailChange = mail => {
+  //   setemail(mail);
+  //   if (!validateEmail(mail)) {
+  //     setemailerror("this is not a valid email");
+  //   } else {
+  //     setemailerror("");
+  //   }
+  // };
 
   handleSubmit = () => {
-    const data = { username, email, phone, password };
+    const data = {
+      first_name: firstname,
+      last_name: lastname,
+      phone,
+      password
+    };
     props.registerAction(data, props.navigation);
   };
 
@@ -51,11 +56,11 @@ const SignUp = props => {
   return (
     <KeyboardShift>
       {() => (
-        <ScrollView
-          keyboardShouldPersistTaps="always"
-          keyboardDismissMode="on-drag"
-        >
-          <View style={styles.root}>
+        <View style={styles.root}>
+          <ScrollView
+            keyboardShouldPersistTaps="always"
+            keyboardDismissMode="on-drag"
+          >
             <SafeAreaView />
             <View style={styles.content1}>
               <Image
@@ -66,40 +71,39 @@ const SignUp = props => {
             </View>
             <View style={styles.content2}>
               <TextField
-                value={username}
+                value={firstname}
                 // error={username.length}
-                onChangeText={text => setusername(text)}
-                label="Username"
+                onChangeText={text => setFirstname(text)}
+                autoCapitalize="none"
+                label="First Name"
                 // keyboardType="phone-pad"
                 tintColor="#000dbb"
               />
               <TextField
-                value={email}
-                error={emailerror}
-                onChangeText={handleEmailChange}
-                label="Email"
+                value={lastname}
+                // error={props.emailError}
+                onChangeText={text => setLastname(text)}
+                autoCapitalize="none"
+                label="Last Name"
                 // keyboardType="phone-pad"
                 tintColor="#000dbb"
               />
               <TextField
                 value={phone}
+                error={props.phoneError}
                 onChangeText={text => setphone(text)}
+                autoCapitalize="none"
                 label="Phone Number"
                 keyboardType="phone-pad"
                 tintColor="#000dbb"
               />
               <PasswordedInput
+                error={props.passwordError}
+                autoCapitalize="none"
                 tintColor="#000dbb"
                 label="Password"
                 value={password}
                 onChangeText={text => setpassword(text)}
-              />
-              <PasswordedInput
-                error={password !== cpassword ? "passwords do not match" : ""}
-                tintColor="#000dbb"
-                label="Confirm Password"
-                value={cpassword}
-                onChangeText={text => setcpassword(text)}
               />
               <View style={{ alignItems: "flex-end", marginVertical: 20 }}>
                 <Text style={[styles.submitText, { textAlign: "justify" }]}>
@@ -123,12 +127,11 @@ const SignUp = props => {
               </View>
               <View style={{ marginTop: 20, marginBottom: 15 }}>
                 <Button
-                  disabled={
-                    username.length < 3 ||
-                    !validateEmail(email) ||
-                    phone.length < 9 ||
-                    password !== cpassword
-                  }
+                  // disabled={
+                  //   username.length < 3 ||
+                  //   !validateEmail(email) ||
+                  //   phone.length < 9
+                  // }
                   loading={props.isLoading}
                   onPress={handleSubmit}
                   style={styles.submitButton}
@@ -144,8 +147,8 @@ const SignUp = props => {
                 Sign in instead?
               </Button>
             </View>
-          </View>
-        </ScrollView>
+          </ScrollView>
+        </View>
       )}
     </KeyboardShift>
   );
@@ -194,7 +197,10 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  isLoading: state.AuthReducer.registerLoading
+  isLoading: state.AuthReducer.registerLoading,
+  emailError: state.AuthReducer.signupEmailError,
+  phoneError: state.AuthReducer.signupPhoneError,
+  passwordError: state.AuthReducer.signupPasswordError
 });
 
 export default connect(mapStateToProps, { registerAction })(SignUp);
