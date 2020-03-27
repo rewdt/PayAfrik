@@ -94,9 +94,9 @@ export const registerAction = (data, navigation) => async dispatch => {
         createNotification({
           message: "Success",
           type: "success",
-          description: "You have succefully logged in"
+          description: "You have succefully Signed Up"
         });
-        routeHome({ navigation });
+        routeHome({ navigation, routeTo: "WelcomeScreen" });
       } else {
         dispatch({
           type: HANDLE_SIGNUP_ERRORS,

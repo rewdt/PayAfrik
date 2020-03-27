@@ -20,6 +20,7 @@ export default class App extends Component {
     await Font.loadAsync({
       "Poppins-Black": require("./resources/fonts/Poppins-Black.ttf"),
       "Poppins-Bold": require("./resources/fonts/Poppins-Bold.ttf"),
+      "Poppins-ExtraBoldItalic": require("./resources/fonts/Poppins-ExtraBoldItalic.ttf"),
       "Poppins-Regular": require("./resources/fonts/Poppins-Regular.ttf"),
       "Poppins-SemiBold": require("./resources/fonts/Poppins-SemiBold.ttf"),
       "Poppins-Medium": require("./resources/fonts/Poppins-Medium.ttf"),
