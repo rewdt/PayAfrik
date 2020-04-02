@@ -1,15 +1,53 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
+  TextInput as Input,
   TouchableOpacity,
   ScrollView,
   StyleSheet
 } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { connect } from "react-redux";
 import { TextInput, Divider, Button } from "react-native-paper";
+import { Dropdown } from "react-native-material-dropdown";
+import {
+  fetchBillerCategories,
+  fetchBillerOptions,
+  submitUtilities
+} from "../../actions/UtilitiesAction";
 
-const ElectricityBills = () => {
+const ElectricityBills = props => {
+  const [metrenumber, setmetrenumber] = useState("");
+  const [amount, setamount] = useState("0");
+  const [billerId, setbillerId] = useState("");
+  const [paymentCode, setpaymentCode] = useState("");
+
+  useEffect(() => {
+    // console.warn(props.electricityBillerCategories);
+    props.fetchBillerCategories(1);
+  }, []);
+
+  const handleBillerChange = billerid => {
+    setbillerId(billerId);
+    props.fetchBillerOptions(billerid);
+  };
+
+  const handleBillerOptions = paymentcode => {
+    setpaymentCode(paymentcode);
+  };
+
+  const handleSubmit = () => {
+    const data = {
+      paymentCode: paymentCode,
+      customerId: metrenumber,
+      customerMobile: props.profileDetails.phone,
+      customerEmail: props.profileDetails.email,
+      amount: amount
+    };
+    props.submitUtilities(data);
+    // console.log(data);
+  };
   return (
     <ScrollView>
       <View style={styles.root}>
@@ -57,18 +95,41 @@ const ElectricityBills = () => {
           </View>
         </View>
         <View style={{ width: "80%", alignSelf: "center", paddingTop: 20 }}>
-          <TextInput
-            mode="flat"
-            style={{ backgroundColor: "transparent" }}
-            label="Bank Name"
+          <Dropdown
+            label="Electricity Billers"
+            value={billerId}
+            data={props.electricityBillerCategories}
+            labelExtractor={el => el.billername}
+            valueExtractor={el => el.billerid}
+            onChangeText={handleBillerChange}
+          />
+          <Dropdown
+            label="Biller Options"
+            value={paymentCode}
+            data={props.billerOptions}
+            labelExtractor={el => el.paymentitemname}
+            valueExtractor={el => el.paymentCode}
+            onChangeText={handleBillerOptions}
           />
           <TextInput
-            label="Account Number"
-            style={{ backgroundColor: "transparent" }}
+            label="Metre Number"
+            mode="outlined"
+            value={metrenumber}
+            onChangeText={txt => setmetrenumber(txt)}
           />
         </View>
         <View style={{ height: 120, paddingTop: 20 }}>
           <View style={styles.currencyContainer}>
+            <Input
+              value={amount}
+              defaultValue={"0"}
+              keyboardType="number-pad"
+              onChangeText={txt => setamount(txt)}
+              style={{
+                fontFamily: "Poppins-Thin",
+                fontSize: 20
+              }}
+            />
             <Text
               style={{
                 fontSize: 29,
@@ -76,13 +137,6 @@ const ElectricityBills = () => {
                 color: "#262626"
               }}
             >
-              <Text
-                style={{
-                  fontFamily: "Poppins-Thin"
-                }}
-              >
-                0
-              </Text>
               &nbsp;USD
             </Text>
           </View>
@@ -104,6 +158,7 @@ const ElectricityBills = () => {
             theme={{ roundness: 20, colors: { primary: "#ffffff" } }}
             mode="contained"
             uppercase={false}
+            onPress={handleSubmit}
           >
             Transfer
           </Button>
@@ -145,7 +200,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between"
   },
-  currencyContainer: { alignItems: "center" }
+  currencyContainer: {
+    alignItems: "center",
+    flexDirection: "row",
+    alignSelf: "center"
+  }
 });
 
-export default ElectricityBills;
+const mapStateToProps = state => ({
+  electricityBillerCategories: state.utilities.electricityBillerCategories,
+  billerOptions: state.utilities.billerOptions,
+  profileDetails: state.profile.profileDetails
+});
+
+export default connect(mapStateToProps, {
+  fetchBillerCategories,
+  fetchBillerOptions,
+  submitUtilities
+})(ElectricityBills);

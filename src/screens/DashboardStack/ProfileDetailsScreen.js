@@ -10,7 +10,6 @@ const { width, height } = Dimensions.get("window");
 
 const ProfileDetailsScreen = props => {
   useEffect(() => {
-    console.warn(props.user);
     props.fetchUserProfile(props.user.token);
   }, []);
 
