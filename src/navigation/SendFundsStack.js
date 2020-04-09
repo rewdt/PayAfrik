@@ -1,17 +1,24 @@
 import { createStackNavigator } from "react-navigation-stack";
 import SendFundsScreen from "../screens/SendFundsScreen";
+import SendAFKCoin from "../screens/DashboardStack/SendAFKCoin";
 
 const SendFundsStack = createStackNavigator(
   {
     SendFundsScreen: {
       screen: SendFundsScreen,
       navigationOptions: () => ({
-        headerTitle: "Send Funds"
-      })
-    }
+        headerTitle: "Send Funds",
+      }),
+    },
+    SendAFKCoin: {
+      screen: SendAFKCoin,
+      navigationOptions: () => ({
+        headerTitle: "Send AFK Coin",
+      }),
+    },
   },
   {
-    headerLayoutPreset: "center"
+    headerLayoutPreset: "center",
   }
 );
 

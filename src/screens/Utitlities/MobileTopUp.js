@@ -1,23 +1,67 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
+  TextInput as Input,
   TouchableOpacity,
   ScrollView,
   StyleSheet
 } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { connect } from "react-redux";
 import { TextInput, Divider, Button } from "react-native-paper";
+import { Dropdown } from "react-native-material-dropdown";
+import {
+  fetchBillerCategories,
+  fetchBillerOptions,
+  submitUtilities
+} from "../../actions/UtilitiesAction";
+import CurrencyOptionsModal from "../../components/CurrencyOptionsModal";
 
-const MobileTopUp = () => {
+const MobileTopUp = (props) => {
+  const [visible, setVisible] = useState(false);
+  const [metrenumber, setmetrenumber] = useState("");
+  const [amount, setamount] = useState("0");
+  const [billerId, setbillerId] = useState("");
+  const [paymentCode, setpaymentCode] = useState("");
+
+  // useEffect(() => {
+  //   // console.warn(props.electricityBillerCategories);
+  //   props.fetchBillerCategories(3);
+  // }, []);
+
+  const handleBillerChange = (billerid) => {
+    setbillerId(billerId);
+    props.fetchBillerOptions(billerid);
+  };
+
+  const handleBillerOptions = (paymentcode) => {
+    setpaymentCode(paymentcode);
+  };
+
+  const handleSubmit = () => {
+    const data = {
+      paymentCode: paymentCode,
+      customerId: metrenumber,
+      customerMobile: props.profileDetails.phone,
+      customerEmail: props.profileDetails.email,
+      amount: amount
+    };
+    props.submitUtilities(data, props.user.token);
+    // console.log(data);
+  };
   return (
     <ScrollView>
       <View style={styles.root}>
+        <CurrencyOptionsModal
+          visible={visible}
+          setVisible={(status) => setVisible(status)}
+        />
         <View style={{ paddingVertical: 20, paddingHorizontal: 20 }}>
           <Text style={styles.title}>Phone Number</Text>
-          <Text style={styles.description}>
+          {/* <Text style={styles.description}>
             Lorem Ipsum Not to egt aye nor yuou thus
-          </Text>
+          </Text> */}
         </View>
         <View
           style={[
@@ -47,7 +91,7 @@ const MobileTopUp = () => {
           <View style={{ flex: 2 }}>
             <TouchableOpacity
               style={styles.btnContainer}
-              //   onPress={() => setVisible(true)}
+              onPress={() => setVisible(true)}
             >
               <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <View style={{ marginLeft: 10 }}>
@@ -60,14 +104,41 @@ const MobileTopUp = () => {
           </View>
         </View>
         <View style={{ width: "80%", alignSelf: "center", paddingTop: 20 }}>
+          <Dropdown
+            label="Phone Billers"
+            value={billerId}
+            data={props.electricityBillerCategories}
+            labelExtractor={(el) => el.billername}
+            valueExtractor={(el) => el.billerid}
+            onChangeText={handleBillerChange}
+          />
+          <Dropdown
+            label="Biller Options"
+            value={paymentCode}
+            data={props.billerOptions}
+            labelExtractor={(el) => el.paymentitemname}
+            valueExtractor={(el) => el.paymentCode}
+            onChangeText={handleBillerOptions}
+          />
           <TextInput
-            mode="flat"
-            style={{ backgroundColor: "transparent" }}
             label="Phone Number"
+            mode="outlined"
+            value={metrenumber}
+            onChangeText={(txt) => setmetrenumber(txt)}
           />
         </View>
         <View style={{ height: 120, paddingTop: 20 }}>
           <View style={styles.currencyContainer}>
+            <Input
+              value={amount}
+              defaultValue={"0"}
+              keyboardType="number-pad"
+              onChangeText={(txt) => setamount(txt)}
+              style={{
+                fontFamily: "Poppins-Thin",
+                fontSize: 20
+              }}
+            />
             <Text
               style={{
                 fontSize: 29,
@@ -75,13 +146,6 @@ const MobileTopUp = () => {
                 color: "#262626"
               }}
             >
-              <Text
-                style={{
-                  fontFamily: "Poppins-Thin"
-                }}
-              >
-                0
-              </Text>
               &nbsp;USD
             </Text>
           </View>
@@ -103,6 +167,7 @@ const MobileTopUp = () => {
             theme={{ roundness: 20, colors: { primary: "#ffffff" } }}
             mode="contained"
             uppercase={false}
+            onPress={handleSubmit}
           >
             Transfer
           </Button>
@@ -124,7 +189,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-
     elevation: 5
   },
   title: {
@@ -144,7 +208,22 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between"
   },
-  currencyContainer: { alignItems: "center" }
+  currencyContainer: {
+    alignItems: "center",
+    flexDirection: "row",
+    alignSelf: "center"
+  }
 });
 
-export default MobileTopUp;
+const mapStateToProps = (state) => ({
+  user: state.AuthReducer.authDetails,
+  electricityBillerCategories: state.utilities.electricityBillerCategories,
+  billerOptions: state.utilities.billerOptions,
+  profileDetails: state.profile.profileDetails
+});
+
+export default connect(mapStateToProps, {
+  fetchBillerCategories,
+  fetchBillerOptions,
+  submitUtilities
+})(MobileTopUp);

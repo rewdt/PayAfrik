@@ -13,8 +13,27 @@ import lodash from "lodash";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Portal, Modal, RadioButton } from "react-native-paper";
 
-const CurrencyOptionsModal = props => {
-  const [selected, setSelected] = useState("a");
+const CurrencyOptionsModal = (props) => {
+  const [selected, setSelected] = useState("afk");
+
+  const data = [
+    {
+      key: "btc",
+      value: props.btc_balance,
+      icon: "https://s2.coinmarketcap.com/static/img/coins/200x200/1.png"
+    },
+    {
+      key: "afk",
+      value: props.balance,
+      icon: "https://i.imgur.com/U2dFBuZ.png"
+    },
+    {
+      key: "eth",
+      value: props.eth_balance,
+      icon: "https://s2.coinmarketcap.com/static/img/coins/200x200/1027.png"
+    }
+  ];
+
   const onDismiss = () => {
     props.setVisible(false);
   };
@@ -31,16 +50,16 @@ const CurrencyOptionsModal = props => {
           <View style={styles.contentBodyStyle}>
             {!lodash.isEmpty(props.currencies) ? (
               <ScrollView>
-                {props.currencies.map(e => (
+                {data.map((e) => (
                   <RadioButton.Group
-                    key={e.code}
-                    onValueChange={value => setSelected(value)}
+                    key={e.key}
+                    onValueChange={(value) => setSelected(value)}
                     value={selected}
                   >
                     <TouchableOpacity
                       style={styles.btnContainer}
-                      key={e}
-                      onPress={() => setSelected(e)}
+                      key={e.key}
+                      onPress={() => setSelected(e.key)}
                     >
                       <View
                         style={{ flexDirection: "row", alignItems: "center" }}
@@ -50,11 +69,13 @@ const CurrencyOptionsModal = props => {
                           style={{ height: 30, width: 30 }}
                         />
                         <View style={{ paddingLeft: 10 }}>
-                          <Text style={styles.currencyName}>0 BTC</Text>
+                          <Text style={styles.currencyName}>
+                            {e.value} {e.key}
+                          </Text>
                           <Text style={styles.currencyPercentage}>0.00%</Text>
                         </View>
                       </View>
-                      <RadioButton value={e} />
+                      <RadioButton value={e.key} />
                     </TouchableOpacity>
                   </RadioButton.Group>
                 ))}
@@ -71,7 +92,8 @@ const CurrencyOptionsModal = props => {
 
 const styles = StyleSheet.create({
   contentContainer: {
-    height: 280,
+    // height: 280,
+    height: 200,
     bottom: 100,
     backgroundColor: "#ffffff"
   },
@@ -108,8 +130,11 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = state => ({
-  currencies: state.Currencies.currenciesList
+const mapStateToProps = (state) => ({
+  currencies: state.Currencies.currenciesList,
+  balance: state.profile.balance,
+  eth_balance: state.profile.eth_balance,
+  btc_balance: state.profile.eth_balance
 });
 
 export default connect(mapStateToProps)(CurrencyOptionsModal);

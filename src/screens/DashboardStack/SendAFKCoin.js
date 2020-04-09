@@ -1,12 +1,34 @@
-import React from "react";
-import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  TextInput
+} from "react-native";
+import { connect } from "react-redux";
 import { FontAwesome5 } from "@expo/vector-icons";
 import QRCode from "react-native-qrcode-svg";
 import { Button, Divider } from "react-native-paper";
+import CurrencyOptionsModal from "../../components/CurrencyOptionsModal";
+import { sendTokenAction } from "../../actions/sendTokenAction";
+import { getUserBalance } from "../../actions/ProfileAction";
+const SendAFKCoin = (props) => {
+  const [visible, setVisible] = useState(false);
+  const [recipient, setrecipient] = useState("");
+  const [amount, setamount] = useState("0");
 
-const SendAFKCoin = () => {
+  const handleSubmit = () => {
+    const data = { recipient, requested_amount: amount };
+    props.sendTokenAction(data, props);
+  };
   return (
     <View style={styles.root}>
+      <CurrencyOptionsModal
+        visible={visible}
+        setVisible={(status) => setVisible(status)}
+      />
       <View style={{ flex: 2, justifyContent: "space-around" }}>
         <View
           style={[
@@ -73,15 +95,17 @@ const SendAFKCoin = () => {
             </Text>
           </View>
           <View style={{ flex: 2 }}>
-            <TouchableOpacity
-              style={styles.btnContainer}
-              onPress={() => setVisible(true)}
-            >
+            <View style={styles.btnContainer} onPress={() => setVisible(true)}>
               <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <Text>username</Text>
+                <TextInput
+                  placeholder="Username"
+                  value={recipient}
+                  onChangeText={(txt) => setrecipient(txt)}
+                />
+                {/* <Text>username</Text> */}
               </View>
               {/* <QRCode value="123456789876543212345678" size={38} /> */}
-            </TouchableOpacity>
+            </View>
           </View>
         </View>
       </View>
@@ -93,6 +117,12 @@ const SendAFKCoin = () => {
       >
         <View>
           <View style={styles.currencyContainer}>
+            <TextInput
+              style={styles.amountInput}
+              keyboardType="number-pad"
+              value={amount}
+              onChangeText={(txt) => setamount(txt)}
+            />
             <Text
               style={{
                 fontSize: 29,
@@ -100,31 +130,26 @@ const SendAFKCoin = () => {
                 color: "#262626"
               }}
             >
-              <Text
-                style={{
-                  fontFamily: "Poppins-Thin"
-                }}
-              >
-                0
-              </Text>
               &nbsp;USD
             </Text>
           </View>
           <Divider />
-          <View style={styles.currencyContainer}>
+          {/* <View style={styles.currencyContainer}>
             <Text
               style={{
                 fontFamily: "Poppins-Medium",
                 color: "rgba(142, 145, 188, 0.75)",
-                fontSize: 15
+                fontSize: 15,
               }}
             >
               0 BTC
             </Text>
-          </View>
+          </View> */}
         </View>
         <View style={{ width: "80%", alignSelf: "center" }}>
           <Button
+            loading={props.isRequesting}
+            onPress={handleSubmit}
             theme={{ roundness: 20, colors: { primary: "#ffffff" } }}
             mode="contained"
             uppercase={false}
@@ -132,22 +157,7 @@ const SendAFKCoin = () => {
             Transfer
           </Button>
         </View>
-        <View>
-          {/* <Button
-            mode="text"
-            uppercase={false}
-            labelStyle={{
-              color: "#0115fb",
-              fontSize: 10,
-              fontFamily: "Poppins-Bold"
-            }}
-          >
-            <Text style={{ textDecorationLine: "underline" }}>
-              Transfer to User Instead&nbsp;
-            </Text>
-            <FontAwesome5 name="arrow-right" />
-          </Button> */}
-        </View>
+        <View />
       </View>
     </View>
   );
@@ -179,7 +189,25 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between"
   },
-  currencyContainer: { alignItems: "center" }
+  currencyContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row"
+  },
+  amountInput: {
+    fontSize: 29,
+    textAlignVertical: "top",
+    fontFamily: "Poppins-SemiBold",
+    color: "#262626"
+  }
 });
 
-export default SendAFKCoin;
+const mapStateToProps = (state) => ({
+  user: state.AuthReducer.authDetails,
+  isRequesting: state.sendReducer.isRequesting,
+  balance: state.profile.balance
+});
+
+export default connect(mapStateToProps, { sendTokenAction, getUserBalance })(
+  SendAFKCoin
+);

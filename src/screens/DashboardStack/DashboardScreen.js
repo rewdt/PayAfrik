@@ -13,19 +13,26 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { Button, TouchableRipple } from "react-native-paper";
 import DashboardWalletModal from "../../components/DashboardWalletModal";
 import { fetchAllCurrencies } from "../../actions/CurrencyListings";
-import { fetchUserProfile } from "../../actions/ProfileAction";
+import { fetchUserProfile, getUserBalance } from "../../actions/ProfileAction";
 
-const DashboardScreen = props => {
+const DashboardScreen = (props) => {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     // console.log("user", props.user);
     props.fetchAllCurrencies();
+    props.getUserBalance(props.user.token);
     // props.fetchUserProfile()
     // console.warn(props.currencies);
   }, []);
 
-  showModal = status => {
+  useEffect(() => {
+    props.navigation.setParams({
+      balance: props.balance
+    });
+  }, [props.balance]);
+
+  showModal = (status) => {
     setVisible(status);
   };
 
@@ -34,7 +41,7 @@ const DashboardScreen = props => {
       <ScrollView>
         <DashboardWalletModal
           visible={visible}
-          setVisible={status => showModal(status)}
+          setVisible={(status) => showModal(status)}
         />
         <View style={styles.mainsubHeader}>
           <Button
@@ -86,7 +93,7 @@ const DashboardScreen = props => {
           </View>
         </View>
         <ScrollView horizontal contentContainerStyle={{ paddingVertical: 20 }}>
-          {[1, 2, 3, 4, 5, 6].map(e => (
+          {[1, 2, 3, 4, 5, 6].map((e) => (
             <ImageBackground
               key={e}
               resizeMode="center"
@@ -285,14 +292,18 @@ const DashboardScreen = props => {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.subContainerButton}
-              onPress={() => props.navigation.navigate("SendAFKCoin")}
+              onPress={() => props.navigation.navigate("BuyOptions")}
             >
               <FontAwesome5 name="paper-plane" size={19} />
               <Text style={[styles.subButtonText, { width: 32 }]}>
                 Buy AFK Coin
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.subContainerButton}>
+            <TouchableOpacity
+              style={styles.subContainerButton}
+              onPress={() => props.navigation.navigate("TransferOptions")}
+            >
+              {/* () => props.navigation.navigate("SendAFKCoin") */}
               <Image
                 source={require("../../../assets/send-back.png")}
                 style={{ height: 19.7, width: 24.6 }}
@@ -484,12 +495,14 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.AuthReducer.authDetails,
-  currencies: state.Currencies.currenciesList
+  currencies: state.Currencies.currenciesList,
+  balance: state.profile.balance
 });
 
 export default connect(mapStateToProps, {
   fetchAllCurrencies,
-  fetchUserProfile
+  fetchUserProfile,
+  getUserBalance
 })(DashboardScreen);

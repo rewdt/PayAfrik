@@ -5,7 +5,7 @@ import {
   Image,
   TouchableOpacity,
   StyleSheet,
-  TextInput
+  TextInput,
 } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { connect } from "react-redux";
@@ -13,19 +13,19 @@ import QRCode from "react-native-qrcode-svg";
 import { Button, Divider } from "react-native-paper";
 import CurrencyOptionsModal from "../components/CurrencyOptionsModal";
 
-const SendFundsScreen = () => {
+const SendFundsScreen = (props) => {
   const [visible, setVisible] = useState(false);
   return (
     <View style={styles.root}>
       <CurrencyOptionsModal
         visible={visible}
-        setVisible={status => setVisible(status)}
+        setVisible={(status) => setVisible(status)}
       />
       <View style={{ flex: 2, justifyContent: "space-around" }}>
         <View
           style={[
             styles.pickerMenuContainer,
-            { borderBottomLeftRadius: 20, borderBottomRightRadius: 20 }
+            { borderBottomLeftRadius: 20, borderBottomRightRadius: 20 },
           ]}
         >
           <View
@@ -34,14 +34,14 @@ const SendFundsScreen = () => {
               borderBottomWidth: 1,
               borderBottomColor: "#eeeeee",
               paddingLeft: 30,
-              justifyContent: "center"
+              justifyContent: "center",
             }}
           >
             <Text
               style={{
                 fontFamily: "Poppins-Medium",
                 color: "rgba(142, 145, 188, 0.75)",
-                fontSize: 15
+                fontSize: 15,
               }}
             >
               From
@@ -73,14 +73,14 @@ const SendFundsScreen = () => {
               borderBottomWidth: 1,
               borderBottomColor: "#eeeeee",
               paddingLeft: 30,
-              justifyContent: "center"
+              justifyContent: "center",
             }}
           >
             <Text
               style={{
                 fontFamily: "Poppins-Medium",
                 color: "rgba(142, 145, 188, 0.75)",
-                fontSize: 15
+                fontSize: 15,
               }}
             >
               To
@@ -103,7 +103,7 @@ const SendFundsScreen = () => {
       <View
         style={{
           flex: 4,
-          justifyContent: "space-around"
+          justifyContent: "space-around",
         }}
       >
         <View>
@@ -112,12 +112,12 @@ const SendFundsScreen = () => {
               style={{
                 fontSize: 29,
                 fontFamily: "Poppins-SemiBold",
-                color: "#262626"
+                color: "#262626",
               }}
             >
               <Text
                 style={{
-                  fontFamily: "Poppins-Thin"
+                  fontFamily: "Poppins-Thin",
                 }}
               >
                 0
@@ -131,7 +131,7 @@ const SendFundsScreen = () => {
               style={{
                 fontFamily: "Poppins-Medium",
                 color: "rgba(142, 145, 188, 0.75)",
-                fontSize: 15
+                fontSize: 15,
               }}
             >
               0 BTC
@@ -150,11 +150,12 @@ const SendFundsScreen = () => {
         <View>
           <Button
             mode="text"
+            onPress={() => props.navigation.navigate("SendAFKCoin")}
             uppercase={false}
             labelStyle={{
               color: "#0115fb",
               fontSize: 10,
-              fontFamily: "Poppins-Bold"
+              fontFamily: "Poppins-Bold",
             }}
           >
             <Text style={{ textDecorationLine: "underline" }}>
@@ -171,7 +172,7 @@ const SendFundsScreen = () => {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: "#ffffff"
+    backgroundColor: "#ffffff",
   },
   pickerMenuContainer: {
     marginTop: 18,
@@ -180,25 +181,25 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 2
+      height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
 
-    elevation: 5
+    elevation: 5,
   },
   btnContainer: {
     flex: 1,
     paddingHorizontal: 30,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
-  currencyContainer: { alignItems: "center" }
+  currencyContainer: { alignItems: "center" },
 });
 
-const mapStateToProps = state => ({
-  currencies: state.Currencies.currenciesList
+const mapStateToProps = (state) => ({
+  currencies: state.Currencies.currenciesList,
 });
 
 export default connect(mapStateToProps)(SendFundsScreen);

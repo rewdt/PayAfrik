@@ -24,6 +24,7 @@ import BuyTabView from "../screens/DashboardBuy/BuyTabView";
 import SendOptions from "../screens/DashboardSend/SendOptions";
 import { logoutAction } from "../actions/AuthAction";
 import { store } from "../../App";
+import TransferOptions from "../screens/DashboardStack/TransferOptions";
 
 const { width, height } = Dimensions.get("window");
 const styles = StyleSheet.create({
@@ -60,7 +61,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const ProfileHeader = props => {
+const ProfileHeader = (props) => {
   return (
     <View style={styles.headerContainer}>
       <HeaderBackButton onPress={() => props.navigation.goBack()} />
@@ -80,7 +81,9 @@ const DashboardStack = createStackNavigator(
         headerLeft: (
           <View style={{ paddingLeft: 20, alignItems: "center" }}>
             <Text style={styles.balanceLabel}>Total Balance</Text>
-            <Text style={styles.balance}>$300.24</Text>
+            <Text style={styles.balance}>
+              ${navigation.getParam("balance")}
+            </Text>
           </View>
         ),
         headerRight: (
@@ -177,6 +180,12 @@ const DashboardStack = createStackNavigator(
       screen: BuyTabView,
       navigationOptions: () => ({
         headerTitle: "Withdraw"
+      })
+    },
+    TransferOptions: {
+      screen: TransferOptions,
+      navigationOptions: () => ({
+        headerTitle: "Transfer"
       })
     },
     SendOptions: {

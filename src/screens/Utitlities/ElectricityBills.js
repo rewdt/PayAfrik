@@ -16,24 +16,26 @@ import {
   fetchBillerOptions,
   submitUtilities
 } from "../../actions/UtilitiesAction";
+import CurrencyOptionsModal from "../../components/CurrencyOptionsModal";
 
-const ElectricityBills = props => {
+const ElectricityBills = (props) => {
+  const [visible, setVisible] = useState(false);
   const [metrenumber, setmetrenumber] = useState("");
   const [amount, setamount] = useState("0");
   const [billerId, setbillerId] = useState("");
   const [paymentCode, setpaymentCode] = useState("");
 
-  useEffect(() => {
-    // console.warn(props.electricityBillerCategories);
-    props.fetchBillerCategories(1);
-  }, []);
+  // useEffect(() => {
+  //   // console.warn(props.electricityBillerCategories);
+  //   props.fetchBillerCategories(1);
+  // }, []);
 
-  const handleBillerChange = billerid => {
+  const handleBillerChange = (billerid) => {
     setbillerId(billerId);
     props.fetchBillerOptions(billerid);
   };
 
-  const handleBillerOptions = paymentcode => {
+  const handleBillerOptions = (paymentcode) => {
     setpaymentCode(paymentcode);
   };
 
@@ -45,17 +47,21 @@ const ElectricityBills = props => {
       customerEmail: props.profileDetails.email,
       amount: amount
     };
-    props.submitUtilities(data);
+    props.submitUtilities(data, props.user.token);
     // console.log(data);
   };
   return (
     <ScrollView>
       <View style={styles.root}>
+        <CurrencyOptionsModal
+          visible={visible}
+          setVisible={(status) => setVisible(status)}
+        />
         <View style={{ paddingVertical: 20, paddingHorizontal: 20 }}>
           <Text style={styles.title}>Bank Details</Text>
-          <Text style={styles.description}>
+          {/* <Text style={styles.description}>
             Lorem Ipsum Not to egt aye nor yuou thus
-          </Text>
+          </Text> */}
         </View>
         <View
           style={[
@@ -83,7 +89,10 @@ const ElectricityBills = props => {
             </Text>
           </View>
           <View style={{ flex: 2 }}>
-            <TouchableOpacity style={styles.btnContainer}>
+            <TouchableOpacity
+              style={styles.btnContainer}
+              onPress={() => setVisible(true)}
+            >
               <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <View style={{ marginLeft: 10 }}>
                   <Text>BTC wallet</Text>
@@ -99,23 +108,23 @@ const ElectricityBills = props => {
             label="Electricity Billers"
             value={billerId}
             data={props.electricityBillerCategories}
-            labelExtractor={el => el.billername}
-            valueExtractor={el => el.billerid}
+            labelExtractor={(el) => el.billername}
+            valueExtractor={(el) => el.billerid}
             onChangeText={handleBillerChange}
           />
           <Dropdown
             label="Biller Options"
             value={paymentCode}
             data={props.billerOptions}
-            labelExtractor={el => el.paymentitemname}
-            valueExtractor={el => el.paymentCode}
+            labelExtractor={(el) => el.paymentitemname}
+            valueExtractor={(el) => el.paymentCode}
             onChangeText={handleBillerOptions}
           />
           <TextInput
             label="Metre Number"
             mode="outlined"
             value={metrenumber}
-            onChangeText={txt => setmetrenumber(txt)}
+            onChangeText={(txt) => setmetrenumber(txt)}
           />
         </View>
         <View style={{ height: 120, paddingTop: 20 }}>
@@ -124,7 +133,7 @@ const ElectricityBills = props => {
               value={amount}
               defaultValue={"0"}
               keyboardType="number-pad"
-              onChangeText={txt => setamount(txt)}
+              onChangeText={(txt) => setamount(txt)}
               style={{
                 fontFamily: "Poppins-Thin",
                 fontSize: 20
@@ -207,7 +216,8 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
+  user: state.AuthReducer.authDetails,
   electricityBillerCategories: state.utilities.electricityBillerCategories,
   billerOptions: state.utilities.billerOptions,
   profileDetails: state.profile.profileDetails

@@ -1,19 +1,31 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import { View, Text, StyleSheet, Dimensions } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { connect } from "react-redux";
 import { TabView, SceneMap, TabBar } from "react-native-tab-view";
 import ElectricityBills from "../Utitlities/ElectricityBills";
 import MobileTopUp from "../Utitlities/MobileTopUp";
-
+import { fetchBillerCategories } from "../../actions/UtilitiesAction";
 const initialLayout = { width: Dimensions.get("window").width };
 
-export default function UtilitiesScreen(props) {
+function UtilitiesScreen(props) {
   const defaultIndex = props.navigation.getParam("index");
   const [index, setIndex] = React.useState(defaultIndex);
   const [routes] = React.useState([
     { key: "first", title: "Electricity Bills", icon: "building" },
     { key: "second", title: "Mobile Top-up", icon: "mobile-alt" }
   ]);
+
+  const getElectrictyIndex = (index) => {
+    if (index === 0) {
+      props.fetchBillerCategories(1);
+    }
+    if (index === 1) {
+      props.fetchBillerCategories(3);
+    }
+  };
+
+  // useEffect(() => {}, []);
 
   const renderScene = SceneMap({
     first: ElectricityBills,
@@ -22,13 +34,18 @@ export default function UtilitiesScreen(props) {
 
   const widthTabBar = 50 * 2;
 
+  const handleIndexChange = (index) => {
+    // console.log(index);
+    getElectrictyIndex(index);
+    setIndex(index);
+  };
   return (
     <TabView
       navigationState={{ index, routes }}
       renderScene={renderScene}
-      onIndexChange={index => setIndex(index)}
+      onIndexChange={handleIndexChange}
       // initialLayout={initialLayout}
-      renderTabBar={props => (
+      renderTabBar={(props) => (
         <View style={styles.tabBarContainer}>
           <TabBar
             {...props}
@@ -88,3 +105,5 @@ const styles = StyleSheet.create({
     alignSelf: "center"
   }
 });
+
+export default connect(null, { fetchBillerCategories })(UtilitiesScreen);

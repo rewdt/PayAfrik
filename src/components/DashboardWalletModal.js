@@ -14,10 +14,27 @@ import lodash from "lodash";
 import { Portal, Modal } from "react-native-paper";
 import { TouchableHighlight } from "react-native-gesture-handler";
 
-const DashboardWalletModal = props => {
+const DashboardWalletModal = (props) => {
   const onDismiss = () => {
     props.setVisible(false);
   };
+  const data = [
+    {
+      key: "btc",
+      value: props.btc_balance,
+      icon: "https://s2.coinmarketcap.com/static/img/coins/200x200/1.png"
+    },
+    {
+      key: "afk",
+      value: props.balance,
+      icon: "https://i.imgur.com/U2dFBuZ.png"
+    },
+    {
+      key: "eth",
+      value: props.eth_balance,
+      icon: "https://s2.coinmarketcap.com/static/img/coins/200x200/1027.png"
+    }
+  ];
   return (
     <Portal>
       <Modal {...props} onDismiss={onDismiss}>
@@ -31,8 +48,8 @@ const DashboardWalletModal = props => {
           <View style={styles.contentBodyStyle}>
             {!lodash.isEmpty(props.currencies) ? (
               <ScrollView>
-                {props.currencies.map(e => (
-                  <TouchableOpacity style={styles.btnContainer} key={e.code}>
+                {data.map((e) => (
+                  <TouchableOpacity style={styles.btnContainer} key={e.key}>
                     <View
                       style={{ flexDirection: "column", alignItems: "center" }}
                     >
@@ -43,8 +60,11 @@ const DashboardWalletModal = props => {
                       <Text style={styles.currencyPercentage}>0.00%</Text>
                     </View>
                     <View>
-                      <Text style={styles.currencyName}>0 BTC</Text>
-                      <Text>$0.00</Text>
+                      <Text style={styles.currencyName}>
+                        {e.value}&nbsp;
+                        {e.key}
+                      </Text>
+                      <Text style={{ textAlign: "right" }}>$0.00</Text>
                     </View>
                   </TouchableOpacity>
                 ))}
@@ -61,7 +81,8 @@ const DashboardWalletModal = props => {
 
 const styles = StyleSheet.create({
   contentContainer: {
-    height: 280,
+    // height: 280,
+    height: 200,
     bottom: 100,
     backgroundColor: "#ffffff"
   },
@@ -98,8 +119,11 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = state => ({
-  currencies: state.Currencies.currenciesList
+const mapStateToProps = (state) => ({
+  currencies: state.Currencies.currenciesList,
+  balance: state.profile.balance,
+  eth_balance: state.profile.eth_balance,
+  btc_balance: state.profile.eth_balance
 });
 
 export default connect(mapStateToProps)(DashboardWalletModal);
