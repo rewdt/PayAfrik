@@ -8,12 +8,12 @@ export const sendTokenAction = (data, props) => async (dispatch) => {
     body: JSON.stringify(data),
     headers: {
       "Content-Type": "application/json",
-      Authorization: props.user.token,
-    },
+      Authorization: props.user.token
+    }
   };
   dispatch({
     type: SEND_REQUESTING,
-    payload: true,
+    payload: true
   });
   await fetch(`${baseurl}/transactions/transactions/send-afk/`, options)
     .then((res) => res.json())
@@ -23,20 +23,20 @@ export const sendTokenAction = (data, props) => async (dispatch) => {
         createNotification({
           message: "Error",
           type: "danger",
-          description: res.error,
+          description: res.error
         });
       } else {
         props.getUserBalance(props.user.token);
         createNotification({
           message: "Success",
           type: "success",
-          description: res.success,
+          description: res.success
         });
       }
     })
     .catch((res) => console.warn(res));
   dispatch({
     type: SEND_REQUESTING,
-    payload: false,
+    payload: false
   });
 };

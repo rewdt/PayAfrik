@@ -57,14 +57,14 @@ const DashboardWalletModal = (props) => {
                         source={{ uri: e.icon }}
                         style={{ height: 30, width: 30 }}
                       />
-                      <Text style={styles.currencyPercentage}>0.00%</Text>
+                      {/* <Text style={styles.currencyPercentage}>0.00%</Text> */}
                     </View>
                     <View>
                       <Text style={styles.currencyName}>
                         {e.value}&nbsp;
                         {e.key}
                       </Text>
-                      <Text style={{ textAlign: "right" }}>$0.00</Text>
+                      {/* <Text style={{ textAlign: "right" }}>$0.00</Text> */}
                     </View>
                   </TouchableOpacity>
                 ))}

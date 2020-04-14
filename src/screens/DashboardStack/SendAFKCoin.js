@@ -14,13 +14,45 @@ import { Button, Divider } from "react-native-paper";
 import CurrencyOptionsModal from "../../components/CurrencyOptionsModal";
 import { sendTokenAction } from "../../actions/sendTokenAction";
 import { getUserBalance } from "../../actions/ProfileAction";
+
+const getWalletIcon = (code) => {
+  switch (code) {
+    case "btc":
+      return "https://s2.coinmarketcap.com/static/img/coins/200x200/1.png";
+    case "eth":
+      return "https://s2.coinmarketcap.com/static/img/coins/200x200/1027.png";
+    case "afk":
+      return "https://i.imgur.com/U2dFBuZ.png";
+    default:
+      null;
+  }
+};
+
+const getWalletAmount = (code, btc_value, eth_value, afk_value) => {
+  switch (code) {
+    case "btc":
+      return btc_value;
+    case "eth":
+      return eth_value;
+    case "afk":
+      return afk_value;
+    default:
+      null;
+  }
+};
+
 const SendAFKCoin = (props) => {
   const [visible, setVisible] = useState(false);
   const [recipient, setrecipient] = useState("");
   const [amount, setamount] = useState("0");
 
   const handleSubmit = () => {
-    const data = { recipient, requested_amount: amount };
+    const data = {
+      recipient,
+      requested_amount: amount,
+      wallet: props.selectedcurrency.toUpperCase(),
+      memo: `this is a ${props.selectedcurrency.toUpperCase()} transfer`
+    };
     props.sendTokenAction(data, props);
   };
   return (
@@ -62,12 +94,20 @@ const SendAFKCoin = (props) => {
             >
               <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <Image
-                  source={require("../../../assets/btc.png")}
+                  source={{ uri: getWalletIcon(props.selectedcurrency) }}
                   style={{ width: 30, height: 30 }}
                 />
                 <View style={{ marginLeft: 10 }}>
-                  <Text>0 BTC</Text>
-                  <Text>BTC wallet</Text>
+                  <Text>
+                    {getWalletAmount(
+                      props.selectedcurrency,
+                      props.btc_balance,
+                      props.eth_balance,
+                      props.balance
+                    )}
+                    {props.selectedcurrency}
+                  </Text>
+                  <Text>{props.selectedcurrency.toUpperCase()} wallet</Text>
                 </View>
               </View>
               <FontAwesome5 name="chevron-down" color="#aaadcd" />
@@ -205,7 +245,10 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
   user: state.AuthReducer.authDetails,
   isRequesting: state.sendReducer.isRequesting,
-  balance: state.profile.balance
+  balance: state.profile.balance,
+  eth_balance: state.profile.eth_balance,
+  btc_balance: state.profile.eth_balance,
+  selectedcurrency: state.Currencies.selectedcurrency
 });
 
 export default connect(mapStateToProps, { sendTokenAction, getUserBalance })(

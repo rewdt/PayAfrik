@@ -194,11 +194,11 @@ const DashboardScreen = (props) => {
               style={{
                 fontFamily: "Poppins-Medium",
                 color: "#f0f0f7",
-                fontSize: 7,
+                fontSize: 9,
                 textDecorationLine: "underline"
               }}
             >
-              Value: $265.01
+              Value: ₦{props.balance}
             </Text>
             <Text
               style={{

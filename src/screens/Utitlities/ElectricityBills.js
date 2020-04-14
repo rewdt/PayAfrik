@@ -91,15 +91,16 @@ const ElectricityBills = (props) => {
           <View style={{ flex: 2 }}>
             <TouchableOpacity
               style={styles.btnContainer}
+              disabled
               onPress={() => setVisible(true)}
             >
               <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <View style={{ marginLeft: 10 }}>
-                  <Text>BTC wallet</Text>
-                  <Text>0 BTC</Text>
+                  <Text>AfriToken Balance</Text>
+                  <Text>{props.balance} AFK</Text>
                 </View>
               </View>
-              <FontAwesome5 name="chevron-down" color="#aaadcd" />
+              {/* <FontAwesome5 name="chevron-down" color="#aaadcd" /> */}
             </TouchableOpacity>
           </View>
         </View>
@@ -220,7 +221,8 @@ const mapStateToProps = (state) => ({
   user: state.AuthReducer.authDetails,
   electricityBillerCategories: state.utilities.electricityBillerCategories,
   billerOptions: state.utilities.billerOptions,
-  profileDetails: state.profile.profileDetails
+  profileDetails: state.profile.profileDetails,
+  balance: state.profile.balance
 });
 
 export default connect(mapStateToProps, {
