@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { Linking } from "expo";
 
 const TransferOptions = (props) => {
   return (
@@ -14,7 +15,7 @@ const TransferOptions = (props) => {
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.contentItemContainer]}
-        // onPress={() => props.navigation.navigate("SendAFKCoin")}
+        onPress={() => Linking.openURL("tel: *737#")}
       >
         <Text style={styles.labelText}>Send to USSD</Text>
         <FontAwesome5 name="chevron-right" color="#262626" />

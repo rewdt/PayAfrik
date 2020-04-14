@@ -2,37 +2,37 @@ import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 
-const SendOptions = props => {
+const SendOptions = (props) => {
   return (
     <View style={styles.root}>
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={[styles.contentItemContainer, { marginTop: 27 }]}
         onPress={() => props.navigation.navigate("BuyTabView", { index: 0 })}
       >
         <Text style={styles.labelText}>To another Wallet</Text>
         <FontAwesome5 name="chevron-right" color="#262626" />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <TouchableOpacity
         style={[styles.contentItemContainer]}
-        onPress={() => props.navigation.navigate("BuyTabView", { index: 1 })}
+        onPress={() => props.navigation.navigate("SendAFKCoin")}
       >
         <Text style={styles.labelText}>To Phone Number</Text>
         <FontAwesome5 name="chevron-right" color="#262626" />
       </TouchableOpacity>
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={[styles.contentItemContainer]}
         onPress={() => props.navigation.navigate("BuyTabView", { index: 2 })}
       >
         <Text style={styles.labelText}>To Card</Text>
         <FontAwesome5 name="chevron-right" color="#262626" />
-      </TouchableOpacity>
-      <TouchableOpacity
+      </TouchableOpacity> */}
+      {/* <TouchableOpacity
         style={[styles.contentItemContainer]}
         onPress={() => props.navigation.navigate("BuyTabView", { index: 2 })}
       >
         <Text style={styles.labelText}>By USSD</Text>
         <FontAwesome5 name="chevron-right" color="#262626" />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };

@@ -78,14 +78,14 @@ const DashboardStack = createStackNavigator(
     DashboardScreen: {
       screen: DashboardScreen,
       navigationOptions: ({ navigation }) => ({
-        headerLeft: (
-          <View style={{ paddingLeft: 20, alignItems: "center" }}>
-            <Text style={styles.balanceLabel}>Total Balance</Text>
-            <Text style={styles.balance}>
-              ${navigation.getParam("balance")}
-            </Text>
-          </View>
-        ),
+        // headerLeft: (
+        //   <View style={{ paddingLeft: 20, alignItems: "center" }}>
+        //     <Text style={styles.balanceLabel}>Total Balance</Text>
+        //     <Text style={styles.balance}>
+        //       ${navigation.getParam("balance")}
+        //     </Text>
+        //   </View>
+        // ),
         headerRight: (
           <View style={{ paddingRight: 20 }}>
             <TouchableOpacity

@@ -146,11 +146,11 @@ const MobileTopUp = (props) => {
                 color: "#262626"
               }}
             >
-              &nbsp;USD
+              {/* &nbsp;USD */}
             </Text>
           </View>
           <Divider />
-          <View style={styles.currencyContainer}>
+          {/* <View style={styles.currencyContainer}>
             <Text
               style={{
                 fontFamily: "Poppins-Medium",
@@ -160,7 +160,7 @@ const MobileTopUp = (props) => {
             >
               0 BTC
             </Text>
-          </View>
+          </View> */}
         </View>
         <View style={{ width: "80%", alignSelf: "center" }}>
           <Button

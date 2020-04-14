@@ -12,6 +12,7 @@ import { connect } from "react-redux";
 import lodash from "lodash";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Portal, Modal, RadioButton } from "react-native-paper";
+import { currencySelectionAction } from "../actions/CurrencyListings";
 
 const CurrencyOptionsModal = (props) => {
   const [selected, setSelected] = useState("afk");
@@ -37,6 +38,11 @@ const CurrencyOptionsModal = (props) => {
   const onDismiss = () => {
     props.setVisible(false);
   };
+
+  const handleValueChange = (value) => {
+    // setSelected(value);
+    props.currencySelectionAction(value);
+  };
   return (
     <Portal>
       <Modal {...props} onDismiss={onDismiss}>
@@ -53,13 +59,13 @@ const CurrencyOptionsModal = (props) => {
                 {data.map((e) => (
                   <RadioButton.Group
                     key={e.key}
-                    onValueChange={(value) => setSelected(value)}
-                    value={selected}
+                    onValueChange={handleValueChange}
+                    value={props.selectedcurrency}
                   >
                     <TouchableOpacity
                       style={styles.btnContainer}
                       key={e.key}
-                      onPress={() => setSelected(e.key)}
+                      onPress={() => handleValueChange(e.key)}
                     >
                       <View
                         style={{ flexDirection: "row", alignItems: "center" }}
@@ -132,9 +138,12 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
   currencies: state.Currencies.currenciesList,
+  selectedcurrency: state.Currencies.selectedcurrency,
   balance: state.profile.balance,
   eth_balance: state.profile.eth_balance,
   btc_balance: state.profile.eth_balance
 });
 
-export default connect(mapStateToProps)(CurrencyOptionsModal);
+export default connect(mapStateToProps, { currencySelectionAction })(
+  CurrencyOptionsModal
+);
