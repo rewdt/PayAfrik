@@ -25,6 +25,7 @@ import SendOptions from "../screens/DashboardSend/SendOptions";
 import { logoutAction } from "../actions/AuthAction";
 import { store } from "../../App";
 import TransferOptions from "../screens/DashboardStack/TransferOptions";
+import UtitlitiesPage from "../screens/Utitlities/UtitlitiesPage";
 
 const { width, height } = Dimensions.get("window");
 const styles = StyleSheet.create({
@@ -148,6 +149,12 @@ const DashboardStack = createStackNavigator(
     },
     UtilitiesScreen: {
       screen: UtilitiesScreen,
+      navigationOptions: () => ({
+        headerTitle: "Utilities"
+      })
+    },
+    UtilitiesPage: {
+      screen: UtitlitiesPage,
       navigationOptions: () => ({
         headerTitle: "Utilities"
       })

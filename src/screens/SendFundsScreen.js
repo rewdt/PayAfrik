@@ -5,16 +5,18 @@ import {
   Image,
   TouchableOpacity,
   StyleSheet,
-  TextInput,
+  TextInput
 } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { connect } from "react-redux";
 import QRCode from "react-native-qrcode-svg";
 import { Button, Divider } from "react-native-paper";
 import CurrencyOptionsModal from "../components/CurrencyOptionsModal";
+import { getWalletIcon, getWalletAmount } from "./DashboardStack/SendAFKCoin";
 
 const SendFundsScreen = (props) => {
   const [visible, setVisible] = useState(false);
+  const [amount, setamount] = useState("0");
   return (
     <View style={styles.root}>
       <CurrencyOptionsModal
@@ -25,7 +27,7 @@ const SendFundsScreen = (props) => {
         <View
           style={[
             styles.pickerMenuContainer,
-            { borderBottomLeftRadius: 20, borderBottomRightRadius: 20 },
+            { borderBottomLeftRadius: 20, borderBottomRightRadius: 20 }
           ]}
         >
           <View
@@ -34,14 +36,14 @@ const SendFundsScreen = (props) => {
               borderBottomWidth: 1,
               borderBottomColor: "#eeeeee",
               paddingLeft: 30,
-              justifyContent: "center",
+              justifyContent: "center"
             }}
           >
             <Text
               style={{
                 fontFamily: "Poppins-Medium",
                 color: "rgba(142, 145, 188, 0.75)",
-                fontSize: 15,
+                fontSize: 15
               }}
             >
               From
@@ -54,12 +56,20 @@ const SendFundsScreen = (props) => {
             >
               <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <Image
-                  source={require("../../assets/btc.png")}
+                  source={{ uri: getWalletIcon(props.selectedcurrency) }}
                   style={{ width: 30, height: 30 }}
                 />
                 <View style={{ marginLeft: 10 }}>
-                  <Text>0 BTC</Text>
-                  <Text>BTC wallet</Text>
+                  <Text>
+                    {getWalletAmount(
+                      props.selectedcurrency,
+                      props.btc_balance,
+                      props.eth_balance,
+                      props.balance
+                    )}
+                    {props.selectedcurrency}
+                  </Text>
+                  <Text>{props.selectedcurrency.toUpperCase()} wallet</Text>
                 </View>
               </View>
               <FontAwesome5 name="chevron-down" color="#aaadcd" />
@@ -73,14 +83,14 @@ const SendFundsScreen = (props) => {
               borderBottomWidth: 1,
               borderBottomColor: "#eeeeee",
               paddingLeft: 30,
-              justifyContent: "center",
+              justifyContent: "center"
             }}
           >
             <Text
               style={{
                 fontFamily: "Poppins-Medium",
                 color: "rgba(142, 145, 188, 0.75)",
-                fontSize: 15,
+                fontSize: 15
               }}
             >
               To
@@ -103,40 +113,39 @@ const SendFundsScreen = (props) => {
       <View
         style={{
           flex: 4,
-          justifyContent: "space-around",
+          justifyContent: "space-around"
         }}
       >
         <View>
           <View style={styles.currencyContainer}>
+            <TextInput
+              style={styles.amountInput}
+              keyboardType="number-pad"
+              value={amount}
+              onChangeText={(txt) => setamount(txt)}
+            />
             <Text
               style={{
                 fontSize: 29,
                 fontFamily: "Poppins-SemiBold",
-                color: "#262626",
+                color: "#262626"
               }}
             >
-              <Text
-                style={{
-                  fontFamily: "Poppins-Thin",
-                }}
-              >
-                0
-              </Text>
               &nbsp;USD
             </Text>
           </View>
           <Divider />
-          <View style={styles.currencyContainer}>
+          {/* <View style={styles.currencyContainer}>
             <Text
               style={{
                 fontFamily: "Poppins-Medium",
                 color: "rgba(142, 145, 188, 0.75)",
-                fontSize: 15,
+                fontSize: 15
               }}
             >
               0 BTC
             </Text>
-          </View>
+          </View> */}
         </View>
         <View style={{ width: "80%", alignSelf: "center" }}>
           <Button
@@ -155,7 +164,7 @@ const SendFundsScreen = (props) => {
             labelStyle={{
               color: "#0115fb",
               fontSize: 10,
-              fontFamily: "Poppins-Bold",
+              fontFamily: "Poppins-Bold"
             }}
           >
             <Text style={{ textDecorationLine: "underline" }}>
@@ -172,7 +181,7 @@ const SendFundsScreen = (props) => {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: "#ffffff",
+    backgroundColor: "#ffffff"
   },
   pickerMenuContainer: {
     marginTop: 18,
@@ -181,25 +190,41 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 2
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
 
-    elevation: 5,
+    elevation: 5
   },
   btnContainer: {
     flex: 1,
     paddingHorizontal: 30,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "space-between"
   },
-  currencyContainer: { alignItems: "center" },
+  currencyContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row"
+  },
+  amountInput: {
+    fontSize: 29,
+    textAlignVertical: "top",
+    fontFamily: "Poppins-SemiBold",
+    color: "#262626"
+  }
 });
 
 const mapStateToProps = (state) => ({
   currencies: state.Currencies.currenciesList,
+  user: state.AuthReducer.authDetails,
+  isRequesting: state.sendReducer.isRequesting,
+  balance: state.profile.balance,
+  eth_balance: state.profile.eth_balance,
+  btc_balance: state.profile.eth_balance,
+  selectedcurrency: state.Currencies.selectedcurrency
 });
 
 export default connect(mapStateToProps)(SendFundsScreen);

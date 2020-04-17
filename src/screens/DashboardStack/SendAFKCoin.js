@@ -15,7 +15,7 @@ import CurrencyOptionsModal from "../../components/CurrencyOptionsModal";
 import { sendTokenAction } from "../../actions/sendTokenAction";
 import { getUserBalance } from "../../actions/ProfileAction";
 
-const getWalletIcon = (code) => {
+export const getWalletIcon = (code) => {
   switch (code) {
     case "btc":
       return "https://s2.coinmarketcap.com/static/img/coins/200x200/1.png";
@@ -28,7 +28,7 @@ const getWalletIcon = (code) => {
   }
 };
 
-const getWalletAmount = (code, btc_value, eth_value, afk_value) => {
+export const getWalletAmount = (code, btc_value, eth_value, afk_value) => {
   switch (code) {
     case "btc":
       return btc_value;

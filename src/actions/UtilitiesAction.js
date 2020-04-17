@@ -1,6 +1,26 @@
 import { apiurl, baseurl } from "../constants";
-import { FETCH_ELECTRICITY_BILLER_CATEGORIES, FETCH_BILLER_OPTIONS } from ".";
+import {
+  FETCH_ELECTRICITY_BILLER_CATEGORIES,
+  FETCH_BILLER_OPTIONS,
+  FETCH_ALL_BILLER_CATEGORIES
+} from ".";
 import createNotification from "../helpers/Notifications";
+
+export const fetchAllBillerCategories = (id) => async (dispatch) => {
+  await fetch(`${apiurl}/interswitch/categories`)
+    .then((res) => res.json())
+    .then((res) => {
+      if (res.status) {
+        // console.log(res);
+        dispatch({
+          type: FETCH_ALL_BILLER_CATEGORIES,
+          payload: res.data
+        });
+      }
+      // console.log(res);
+    })
+    .catch((res) => console.warn(res));
+};
 
 export const fetchBillerCategories = (id) => async (dispatch) => {
   await fetch(`${apiurl}/interswitch/billers/category/${id}`)
@@ -21,7 +41,7 @@ export const fetchBillerOptions = (billerid) => async (dispatch) => {
   await fetch(`${apiurl}/interswitch/biller/${billerid}/`)
     .then((res) => res.json())
     .then((res) => {
-      console.log(res);
+      // console.log(res);
       if (res.status) {
         dispatch({
           type: FETCH_BILLER_OPTIONS,

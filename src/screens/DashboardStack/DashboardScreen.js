@@ -230,7 +230,7 @@ const DashboardScreen = (props) => {
           >
             <TouchableOpacity
               style={styles.subContainerButton}
-              onPress={() => props.navigation.navigate("BuyOptions")}
+              // onPress={() => props.navigation.navigate("BuyOptions")}
             >
               <FontAwesome5 name="plus" size={19} />
               <Text style={styles.subButtonText}>Buy</Text>
@@ -244,7 +244,7 @@ const DashboardScreen = (props) => {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.subContainerButton}
-              onPress={() => props.navigation.navigate("WithdrawScreen")}
+              // onPress={() => props.navigation.navigate("WithdrawScreen")}
             >
               <FontAwesome5 name="arrow-up" size={19} />
               <Text style={styles.subButtonText}>Withdraw</Text>
@@ -292,7 +292,7 @@ const DashboardScreen = (props) => {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.subContainerButton}
-              onPress={() => props.navigation.navigate("BuyOptions")}
+              // onPress={() => props.navigation.navigate("BuyOptions")}
             >
               <FontAwesome5 name="paper-plane" size={19} />
               <Text style={[styles.subButtonText, { width: 32 }]}>
@@ -343,7 +343,7 @@ const DashboardScreen = (props) => {
             <TouchableOpacity
               style={styles.subContainerButton}
               onPress={() =>
-                props.navigation.navigate("UtilitiesScreen", { index: 0 })
+                props.navigation.navigate("UtilitiesPage", { index: 0 })
               }
             >
               <FontAwesome5 name="building" size={19} />
@@ -352,7 +352,7 @@ const DashboardScreen = (props) => {
             <TouchableOpacity
               style={styles.subContainerButton}
               onPress={() =>
-                props.navigation.navigate("UtilitiesScreen", { index: 1 })
+                props.navigation.navigate("UtilitiesPage", { index: 1 })
               }
             >
               <FontAwesome5 name="mobile-alt" size={19} />
