@@ -26,6 +26,7 @@ import { logoutAction } from "../actions/AuthAction";
 import { store } from "../../App";
 import TransferOptions from "../screens/DashboardStack/TransferOptions";
 import UtitlitiesPage from "../screens/Utitlities/UtitlitiesPage";
+import TransactionHistory from "../screens/DashboardStack/TransactionHistory";
 
 const { width, height } = Dimensions.get("window");
 const styles = StyleSheet.create({
@@ -139,6 +140,12 @@ const DashboardStack = createStackNavigator(
         headerTitle: "Profile Details"
         // headerTitleStyle: { textAlign: "center" }
         // headerLayoutPreset: "center"
+      })
+    },
+    TransactionHistory: {
+      screen: TransactionHistory,
+      navigationOptions: () => ({
+        headerTitle: "History"
       })
     },
     SettingsScreen: {

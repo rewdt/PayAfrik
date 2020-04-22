@@ -23,7 +23,7 @@ import { registerAction } from "../actions/AuthAction";
 import KeyboardShift from "../components/KeyboardShift";
 import { validateEmail } from "../helpers/EmailValidation";
 
-const SignUp = props => {
+const SignUp = (props) => {
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [phone, setphone] = useState("");
@@ -73,7 +73,7 @@ const SignUp = props => {
               <TextField
                 value={firstname}
                 // error={username.length}
-                onChangeText={text => setFirstname(text)}
+                onChangeText={(text) => setFirstname(text)}
                 autoCapitalize="none"
                 label="First Name"
                 // keyboardType="phone-pad"
@@ -82,7 +82,7 @@ const SignUp = props => {
               <TextField
                 value={lastname}
                 // error={props.emailError}
-                onChangeText={text => setLastname(text)}
+                onChangeText={(text) => setLastname(text)}
                 autoCapitalize="none"
                 label="Last Name"
                 // keyboardType="phone-pad"
@@ -91,7 +91,7 @@ const SignUp = props => {
               <TextField
                 value={phone}
                 error={props.phoneError}
-                onChangeText={text => setphone(text)}
+                onChangeText={(text) => setphone(text)}
                 autoCapitalize="none"
                 label="Phone Number"
                 keyboardType="phone-pad"
@@ -99,11 +99,13 @@ const SignUp = props => {
               />
               <PasswordedInput
                 error={props.passwordError}
+                maxLength={4}
+                keyboardType="number-pad"
                 autoCapitalize="none"
                 tintColor="#000dbb"
                 label="Password"
                 value={password}
-                onChangeText={text => setpassword(text)}
+                onChangeText={(text) => setpassword(text)}
               />
               <View style={{ alignItems: "flex-end", marginVertical: 20 }}>
                 <Text style={[styles.submitText, { textAlign: "justify" }]}>
@@ -196,7 +198,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isLoading: state.AuthReducer.registerLoading,
   emailError: state.AuthReducer.signupEmailError,
   phoneError: state.AuthReducer.signupPhoneError,

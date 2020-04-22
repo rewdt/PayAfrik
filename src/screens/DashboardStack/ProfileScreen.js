@@ -15,7 +15,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { IconButton, Avatar, Button, FAB } from "react-native-paper";
 const { width, height } = Dimensions.get("window");
 
-const GradientButton = props => {
+const GradientButton = (props) => {
   return (
     <TouchableOpacity {...props}>
       <LinearGradient
@@ -46,7 +46,7 @@ const GradientButton = props => {
   );
 };
 
-const ProfileScreen = props => {
+const ProfileScreen = (props) => {
   return (
     <View style={styles.root}>
       {/* <StatusBar translucent={false} /> */}
@@ -144,6 +144,7 @@ const ProfileScreen = props => {
         </View>
         <View style={styles.tHistoryCont}>
           <Button
+            onPress={() => props.navigation.navigate("TransactionHistory")}
             uppercase={false}
             labelStyle={{ color: "#0115fb" }}
             contentStyle={{ alignItems: "center" }}

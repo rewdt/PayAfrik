@@ -14,7 +14,7 @@ import { TouchableHighlight } from "react-native-gesture-handler";
 import KeyboardShift from "../components/KeyboardShift";
 import { loginAction } from "../actions/AuthAction";
 
-const Login = props => {
+const Login = (props) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -36,7 +36,7 @@ const Login = props => {
           </View>
           <View style={styles.content2}>
             <TextField
-              onChangeText={uname => setUsername(uname)}
+              onChangeText={(uname) => setUsername(uname)}
               value={username}
               label="Phone Number"
               error={props.usernameError}
@@ -54,7 +54,7 @@ const Login = props => {
               autoCapitalize="none"
               autoCompleteType="password"
               textContentType="password"
-              onChangeText={pword => setPassword(pword)}
+              onChangeText={(pword) => setPassword(pword)}
               value={password}
             />
             <View style={{ alignItems: "flex-end", marginVertical: 20 }}>
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isLoading: state.AuthReducer.loginLoading,
   usernameError: state.AuthReducer.loginUsernameError,
   passwordError: state.AuthReducer.loginPasswordError
