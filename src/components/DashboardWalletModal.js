@@ -25,8 +25,13 @@ const DashboardWalletModal = (props) => {
       icon: "https://s2.coinmarketcap.com/static/img/coins/200x200/1.png"
     },
     {
+      key: "afritoken",
+      value: props.afritoken_balance,
+      icon: "https://i.imgur.com/U2dFBuZ.png"
+    },
+    {
       key: "afk",
-      value: props.balance,
+      value: props.afk_balance,
       icon: "https://i.imgur.com/U2dFBuZ.png"
     },
     {
@@ -82,7 +87,7 @@ const DashboardWalletModal = (props) => {
 const styles = StyleSheet.create({
   contentContainer: {
     // height: 280,
-    height: 200,
+    height: 230,
     bottom: 100,
     backgroundColor: "#ffffff"
   },
@@ -121,7 +126,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
   currencies: state.Currencies.currenciesList,
-  balance: state.profile.balance,
+  afk_balance: state.profile.afk_balance,
+  afritoken_balance: state.profile.afritoken_balance,
   eth_balance: state.profile.eth_balance,
   btc_balance: state.profile.eth_balance
 });

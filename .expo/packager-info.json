@@ -1,9 +1,9 @@
 {
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 17668,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null,
+  "packagerPid": 13780,
+  "expoServerNgrokUrl": "https://eb-9ya.payafrik.payafrik.exp.direct",
+  "packagerNgrokUrl": "https://packager.eb-9ya.payafrik.payafrik.exp.direct",
+  "ngrokPid": 9596,
   "devToolsPort": 19002
 }

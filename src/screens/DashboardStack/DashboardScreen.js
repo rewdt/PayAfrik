@@ -188,13 +188,13 @@ const DashboardScreen = (props) => {
                 fontSize: 16
               }}
             >
-              AFK TOKEN
+              AFRITOKEN
             </Text>
             <Text
               style={{
                 fontFamily: "Poppins-Medium",
                 color: "#f0f0f7",
-                fontSize: 9,
+                fontSize: 15,
                 textDecorationLine: "underline"
               }}
             >

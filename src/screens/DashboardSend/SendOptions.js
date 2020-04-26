@@ -14,7 +14,9 @@ const SendOptions = (props) => {
       </TouchableOpacity> */}
       <TouchableOpacity
         style={[styles.contentItemContainer]}
-        onPress={() => props.navigation.navigate("SendAFKCoin")}
+        onPress={() =>
+          props.navigation.navigate("SendAFKCoin", { pageType: "afritoken" })
+        }
       >
         <Text style={styles.labelText}>To Phone Number</Text>
         <FontAwesome5 name="chevron-right" color="#262626" />

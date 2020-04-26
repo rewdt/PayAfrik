@@ -181,7 +181,8 @@ const DashboardStack = createStackNavigator(
     SendAFKCoin: {
       screen: SendAFKCoin,
       navigationOptions: () => ({
-        headerTitle: "Send AFK Coin"
+        headerTitle: ""
+        // headerTitle: "Send AFK Coin"
       })
     },
     BuyOptions: {

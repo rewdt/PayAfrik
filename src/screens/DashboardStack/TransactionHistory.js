@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   View,
   Text,
@@ -7,11 +7,14 @@ import {
   StyleSheet,
   ScrollView
 } from "react-native";
+import { connect } from "react-redux";
+import lodash from "lodash";
 import EmptyHistoryImage from "../../../assets/empty_history.png";
 import { Button } from "react-native-paper";
+import { getTransactionHistory } from "../../actions/ProfileAction";
 const { width, height } = Dimensions.get("window");
 
-const HistoryCard = ({ index }) => {
+const HistoryCard = ({ index, item }) => {
   return (
     <View
       style={{
@@ -42,7 +45,7 @@ const HistoryCard = ({ index }) => {
               color: "#262626"
             }}
           >
-            123773 BTC
+            {item.requested_amount} BTC
           </Text>
           <Text
             style={{
@@ -70,7 +73,10 @@ const HistoryCard = ({ index }) => {
   );
 };
 
-const TransactionHistory = () => {
+const TransactionHistory = (props) => {
+  useEffect(() => {
+    props.getTransactionHistory(props.user.token);
+  }, []);
   const EmptyHistory = () => {
     return (
       <View style={styles.emptyContainer}>
@@ -93,16 +99,17 @@ const TransactionHistory = () => {
   const TransactionView = () => {
     return (
       <ScrollView>
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 34, 5, 6, 77].map((item, index) => (
-          <HistoryCard index={index} />
+        {props.transaction_history.map((item, index) => (
+          <HistoryCard index={index} item={item} key={item.id} />
         ))}
       </ScrollView>
     );
   };
   return (
     <View style={{ flex: 1 }}>
-      {/* {EmptyHistory()} */}
-      {TransactionView()}
+      {lodash.isEmpty(props.transaction_history)
+        ? EmptyHistory()
+        : TransactionView()}
     </View>
   );
 };
@@ -126,4 +133,11 @@ const styles = StyleSheet.create({
   }
 });
 
-export default TransactionHistory;
+const mapStateToProps = (state) => ({
+  user: state.AuthReducer.authDetails,
+  transaction_history: state.profile.transaction_history
+});
+
+export default connect(mapStateToProps, { getTransactionHistory })(
+  TransactionHistory
+);

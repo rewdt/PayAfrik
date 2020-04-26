@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -14,6 +14,7 @@ import { Button, Divider } from "react-native-paper";
 import CurrencyOptionsModal from "../../components/CurrencyOptionsModal";
 import { sendTokenAction } from "../../actions/sendTokenAction";
 import { getUserBalance } from "../../actions/ProfileAction";
+import { currencySelectionAction } from "../../actions/CurrencyListings";
 
 export const getWalletIcon = (code) => {
   switch (code) {
@@ -23,12 +24,20 @@ export const getWalletIcon = (code) => {
       return "https://s2.coinmarketcap.com/static/img/coins/200x200/1027.png";
     case "afk":
       return "https://i.imgur.com/U2dFBuZ.png";
+    case "afritoken":
+      return "https://i.imgur.com/U2dFBuZ.png";
     default:
       null;
   }
 };
 
-export const getWalletAmount = (code, btc_value, eth_value, afk_value) => {
+export const getWalletAmount = (
+  code,
+  btc_value,
+  eth_value,
+  afk_value,
+  afritoken_value
+) => {
   switch (code) {
     case "btc":
       return btc_value;
@@ -36,6 +45,8 @@ export const getWalletAmount = (code, btc_value, eth_value, afk_value) => {
       return eth_value;
     case "afk":
       return afk_value;
+    case "afritoken":
+      return afritoken_value;
     default:
       null;
   }
@@ -45,6 +56,14 @@ const SendAFKCoin = (props) => {
   const [visible, setVisible] = useState(false);
   const [recipient, setrecipient] = useState("");
   const [amount, setamount] = useState("0");
+
+  const pageType = props.navigation.getParam("pageType");
+
+  useEffect(() => {
+    if (pageType) {
+      props.currencySelectionAction(pageType);
+    }
+  }, []);
 
   const handleSubmit = () => {
     const data = {
@@ -90,6 +109,7 @@ const SendAFKCoin = (props) => {
           <View style={{ flex: 2 }}>
             <TouchableOpacity
               style={styles.btnContainer}
+              disabled={typeof pageType === "string"}
               onPress={() => setVisible(true)}
             >
               <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -103,8 +123,10 @@ const SendAFKCoin = (props) => {
                       props.selectedcurrency,
                       props.btc_balance,
                       props.eth_balance,
-                      props.balance
+                      props.afk_balance,
+                      props.afritoken_balance
                     )}
+                    &nbsp;
                     {props.selectedcurrency}
                   </Text>
                   <Text>{props.selectedcurrency.toUpperCase()} wallet</Text>
@@ -245,12 +267,15 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
   user: state.AuthReducer.authDetails,
   isRequesting: state.sendReducer.isRequesting,
-  balance: state.profile.balance,
+  afk_balance: state.profile.afk_balance,
+  afritoken_balance: state.profile.afritoken_balance,
   eth_balance: state.profile.eth_balance,
   btc_balance: state.profile.eth_balance,
   selectedcurrency: state.Currencies.selectedcurrency
 });
 
-export default connect(mapStateToProps, { sendTokenAction, getUserBalance })(
-  SendAFKCoin
-);
+export default connect(mapStateToProps, {
+  sendTokenAction,
+  getUserBalance,
+  currencySelectionAction
+})(SendAFKCoin);

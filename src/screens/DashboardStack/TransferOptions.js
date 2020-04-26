@@ -8,18 +8,20 @@ const TransferOptions = (props) => {
     <View style={styles.root}>
       <TouchableOpacity
         style={[styles.contentItemContainer, { marginTop: 27 }]}
-        onPress={() => props.navigation.navigate("SendAFKCoin")}
+        onPress={() =>
+          props.navigation.navigate("SendAFKCoin", { pageType: "afk" })
+        }
       >
         <Text style={styles.labelText}>Send to phone</Text>
         <FontAwesome5 name="chevron-right" color="#262626" />
       </TouchableOpacity>
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={[styles.contentItemContainer]}
         onPress={() => Linking.openURL("tel: *737#")}
       >
         <Text style={styles.labelText}>Send to USSD</Text>
         <FontAwesome5 name="chevron-right" color="#262626" />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <TouchableOpacity
         style={[styles.contentItemContainer]}
         // onPress={() => props.navigation.navigate("BuyTabView", { index: 2 })}
