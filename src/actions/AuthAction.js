@@ -14,7 +14,7 @@ routeHome = ({ navigation, routeTo = "Dashboard" }) => {
   navigation.navigate(routeTo);
 };
 
-export const loginAction = (data, navigation) => async dispatch => {
+export const loginAction = (data, navigation) => async (dispatch) => {
   const options = {
     method: "POST",
     body: JSON.stringify(data),
@@ -27,8 +27,8 @@ export const loginAction = (data, navigation) => async dispatch => {
     payload: true
   });
   await fetch(`${baseurl}/auth/accounts/signin/`, options)
-    .then(res => res.json())
-    .then(res => {
+    .then((res) => res.json())
+    .then((res) => {
       // console.warn(res);
       if (!res.error) {
         dispatch({
@@ -62,14 +62,14 @@ export const loginAction = (data, navigation) => async dispatch => {
         }
       }
     })
-    .catch(res => console.warn(res));
+    .catch((res) => console.warn(res));
   dispatch({
     type: LOGIN_LOADING,
     payload: false
   });
 };
 
-export const registerAction = (data, navigation) => async dispatch => {
+export const registerAction = (data, navigation) => async (dispatch) => {
   const options = {
     method: "POST",
     body: JSON.stringify(data),
@@ -83,8 +83,8 @@ export const registerAction = (data, navigation) => async dispatch => {
     payload: true
   });
   await fetch(`${baseurl}/auth/accounts/signup/`, options)
-    .then(res => res.json())
-    .then(res => {
+    .then((res) => res.json())
+    .then((res) => {
       // console.warn(res);
       if (!res.error) {
         dispatch({
@@ -96,7 +96,7 @@ export const registerAction = (data, navigation) => async dispatch => {
           type: "success",
           description: "You have succefully Signed Up"
         });
-        routeHome({ navigation, routeTo: "WelcomeScreen" });
+        routeHome({ navigation, routeTo: "NumberVerification" });
       } else {
         dispatch({
           type: HANDLE_SIGNUP_ERRORS,
@@ -111,14 +111,14 @@ export const registerAction = (data, navigation) => async dispatch => {
         }
       }
     })
-    .catch(res => console.warn(res));
+    .catch((res) => console.warn(res));
   dispatch({
     type: REGISTER_LOADING,
     payload: false
   });
 };
 
-export const logoutAction = navigation => dispatch => {
+export const logoutAction = (navigation) => (dispatch) => {
   persistor
     .purge()
     .then(() => navigation.navigate("AuthStack"))

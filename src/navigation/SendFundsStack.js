@@ -7,18 +7,20 @@ const SendFundsStack = createStackNavigator(
     SendFundsScreen: {
       screen: SendFundsScreen,
       navigationOptions: () => ({
-        headerTitle: "Send Funds",
-      }),
+        headerTitle: ""
+        // headerTitle: "Send Funds",
+      })
     },
     SendAFKCoin: {
       screen: SendAFKCoin,
       navigationOptions: () => ({
-        headerTitle: "Send AFK Coin",
-      }),
-    },
+        headerTitle: " "
+        // headerTitle: "Send AFK Coin"
+      })
+    }
   },
   {
-    headerLayoutPreset: "center",
+    headerLayoutPreset: "center"
   }
 );
 

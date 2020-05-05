@@ -8,7 +8,7 @@ import DefaultLoader from "../../components/DefaultLoader";
 
 const { width, height } = Dimensions.get("window");
 
-const ProfileDetailsScreen = props => {
+const ProfileDetailsScreen = (props) => {
   useEffect(() => {
     props.fetchUserProfile(props.user.token);
   }, []);
@@ -43,7 +43,7 @@ const ProfileDetailsScreen = props => {
                 alignSelf: "center"
               }}
             >
-              <Text style={styles.confirmationText}>Confirmation Required</Text>
+              {/* <Text style={styles.confirmationText}>Confirmation Required</Text> */}
               <Text style={styles.valueText}>
                 {" "}
                 {props.profileDetails.email}
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.AuthReducer.authDetails,
   profileDetails: state.profile.profileDetails
 });

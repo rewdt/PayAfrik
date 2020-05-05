@@ -198,7 +198,7 @@ const DashboardScreen = (props) => {
                 textDecorationLine: "underline"
               }}
             >
-              Value: ₦{props.balance}
+              Value: {Number(props.afritoken_balance).toFixed(2)}
             </Text>
             <Text
               style={{
@@ -498,7 +498,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
   user: state.AuthReducer.authDetails,
   currencies: state.Currencies.currenciesList,
-  balance: state.profile.balance
+  afritoken_balance: state.profile.afritoken_balance
 });
 
 export default connect(mapStateToProps, {

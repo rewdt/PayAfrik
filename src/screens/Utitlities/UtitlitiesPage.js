@@ -123,7 +123,7 @@ const UtilitiesPage = (props) => {
                   <View style={{ flexDirection: "row", alignItems: "center" }}>
                     <View style={{ marginLeft: 10 }}>
                       <Text>AfriToken Balance</Text>
-                      <Text>{props.balance} AFK</Text>
+                      <Text>{props.afritoken_balance} AfriToken</Text>
                     </View>
                   </View>
                   {/* <FontAwesome5 name="chevron-down" color="#aaadcd" /> */}
@@ -259,7 +259,10 @@ const mapStateToProps = (state) => ({
   electricityBillerCategories: state.utilities.electricityBillerCategories,
   billerOptions: state.utilities.billerOptions,
   profileDetails: state.profile.profileDetails,
-  balance: state.profile.balance
+  afk_balance: state.profile.afk_balance,
+  afritoken_balance: state.profile.afritoken_balance,
+  eth_balance: state.profile.eth_balance,
+  btc_balance: state.profile.eth_balance
 });
 
 export default connect(mapStateToProps, {

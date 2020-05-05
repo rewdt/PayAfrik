@@ -6,18 +6,70 @@ import {
   useBlurOnFulfill,
   useClearByFocusCell
 } from "react-native-confirmation-code-field";
+import { connect } from "react-redux";
 import { Button } from "react-native-paper";
 import LockImage from "../../assets/undraw_two_factor_authentication_namy.png";
+import { baseurl } from "../constants";
+import createNotification from "../helpers/Notifications";
 
 const CELL_COUNT = 4;
 
-const NumberVerification = () => {
+const NumberVerification = ({ user, navigation }) => {
   const [value, setValue] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
     value,
     setValue
   });
+
+  const handleSubmit = async () => {
+    // console.log(user.token);
+    setIsLoading(true);
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", user.token);
+
+    var raw = JSON.stringify({
+      nonce: value
+    });
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw
+    };
+
+    await fetch(`${baseurl}/auth/accounts/verify-phone/`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result);
+        if (result.error) {
+          createNotification({
+            message: "Error",
+            type: "danger",
+            description: result.error
+          });
+        }
+        if (result.nonce) {
+          createNotification({
+            message: "Error",
+            type: "danger",
+            description: result.nonce[0]
+          });
+        }
+        if (result.data) {
+          navigation.navigate("WelcomeScreen");
+          createNotification({
+            message: "Success",
+            type: "success",
+            description: result.success
+          });
+        }
+      })
+      .catch((error) => console.log("error", error));
+    setIsLoading(false);
+  };
 
   return (
     <View style={styles.root}>
@@ -61,6 +113,8 @@ const NumberVerification = () => {
           theme={{ roundness: 30 }}
           contentStyle={{ height: 50 }}
           mode="contained"
+          loading={isLoading}
+          onPress={handleSubmit}
         >
           Confirm
         </Button>
@@ -94,4 +148,9 @@ const styles = StyleSheet.create({
     height: 100
   }
 });
-export default NumberVerification;
+
+const mapStateToProps = (state) => ({
+  user: state.AuthReducer.authDetails
+});
+
+export default connect(mapStateToProps)(NumberVerification);

@@ -185,7 +185,7 @@ const SendAFKCoin = (props) => {
               value={amount}
               onChangeText={(txt) => setamount(txt)}
             />
-            <Text
+            {/* <Text
               style={{
                 fontSize: 29,
                 fontFamily: "Poppins-SemiBold",
@@ -193,7 +193,7 @@ const SendAFKCoin = (props) => {
               }}
             >
               &nbsp;USD
-            </Text>
+            </Text> */}
           </View>
           <Divider />
           {/* <View style={styles.currencyContainer}>

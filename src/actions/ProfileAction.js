@@ -51,7 +51,7 @@ export const getTransactionHistory = (token) => async (dispatch) => {
   await fetch(`${baseurl}/transactions/transactions/`, { headers })
     .then((res) => res.json())
     .then((res) => {
-      console.log(res.results);
+      // console.log(res.results);
       dispatch({
         type: GET_TRANSACTION_HISTORY,
         payload: res.results

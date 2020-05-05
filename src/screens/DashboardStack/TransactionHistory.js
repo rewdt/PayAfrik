@@ -12,13 +12,15 @@ import lodash from "lodash";
 import EmptyHistoryImage from "../../../assets/empty_history.png";
 import { Button } from "react-native-paper";
 import { getTransactionHistory } from "../../actions/ProfileAction";
+import { getWalletIcon } from "./SendAFKCoin";
 const { width, height } = Dimensions.get("window");
 
 const HistoryCard = ({ index, item }) => {
   return (
     <View
       style={{
-        backgroundColor: "#eb2121",
+        backgroundColor:
+          item.transaction_type === "DEBIT" ? "#eb2121" : "#0bad20",
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
@@ -33,7 +35,7 @@ const HistoryCard = ({ index, item }) => {
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <Image
           source={{
-            uri: "https://s2.coinmarketcap.com/static/img/coins/200x200/1.png"
+            uri: getWalletIcon(item.wallet.toLowerCase())
           }}
           style={{ height: 30, width: 30 }}
         />
@@ -45,7 +47,7 @@ const HistoryCard = ({ index, item }) => {
               color: "#262626"
             }}
           >
-            {item.requested_amount} BTC
+            {item.requested_amount} {item.wallet}
           </Text>
           <Text
             style={{
@@ -54,7 +56,7 @@ const HistoryCard = ({ index, item }) => {
               color: "#ffffff"
             }}
           >
-            123
+            {item.status}
           </Text>
         </View>
       </View>
@@ -66,7 +68,7 @@ const HistoryCard = ({ index, item }) => {
             color: "#ffffff"
           }}
         >
-          Account Credited
+          Account {item.transaction_type === "DEBIT" ? "Debited" : "Credited"}
         </Text>
       </View>
     </View>

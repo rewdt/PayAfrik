@@ -172,9 +172,9 @@ const ProfileScreen = (props) => {
                 &nbsp;&nbsp;Profile Details
               </Text>
             </View>
-            <View style={{ paddingTop: 2 }}>
+            {/* <View style={{ paddingTop: 2 }}>
               <Text style={styles.confirmationText}>Confirmation Required</Text>
-            </View>
+            </View> */}
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.settingsItemCont}

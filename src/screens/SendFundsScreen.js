@@ -65,7 +65,8 @@ const SendFundsScreen = (props) => {
                       props.selectedcurrency,
                       props.btc_balance,
                       props.eth_balance,
-                      props.balance
+                      props.afk_balance,
+                      props.afritoken_balance
                     )}
                     {props.selectedcurrency}
                   </Text>
@@ -124,7 +125,7 @@ const SendFundsScreen = (props) => {
               value={amount}
               onChangeText={(txt) => setamount(txt)}
             />
-            <Text
+            {/* <Text
               style={{
                 fontSize: 29,
                 fontFamily: "Poppins-SemiBold",
@@ -132,7 +133,7 @@ const SendFundsScreen = (props) => {
               }}
             >
               &nbsp;USD
-            </Text>
+            </Text> */}
           </View>
           <Divider />
           {/* <View style={styles.currencyContainer}>
@@ -168,7 +169,7 @@ const SendFundsScreen = (props) => {
             }}
           >
             <Text style={{ textDecorationLine: "underline" }}>
-              Transfer to User Instead&nbsp;
+              Transfer to Phone Number Instead&nbsp;
             </Text>
             <FontAwesome5 name="arrow-right" />
           </Button>
@@ -221,7 +222,8 @@ const mapStateToProps = (state) => ({
   currencies: state.Currencies.currenciesList,
   user: state.AuthReducer.authDetails,
   isRequesting: state.sendReducer.isRequesting,
-  balance: state.profile.balance,
+  afk_balance: state.profile.afk_balance,
+  afritoken_balance: state.profile.afritoken_balance,
   eth_balance: state.profile.eth_balance,
   btc_balance: state.profile.eth_balance,
   selectedcurrency: state.Currencies.selectedcurrency
